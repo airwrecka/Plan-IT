@@ -17,27 +17,13 @@
 <link rel="stylesheet" href="../calendar/css/style.css">
 
 <!-- JS / JQUERY -->
-<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
- <script type="text/javascript" src="../js/semantic.js"></script>
+
+<script type="text/javascript" src="/js/jquery-1.11.2.js"></script>
+ <script type="text/javascript" src="/js/semantic.js"></script>
  
 
  <script type ="text/javascript">
-			$(document).ready(function(){
-				$('.menu .item').tab();
-			//----------------SIDEBAR----------------//
 			
-				$('.ui.checkbox').checkbox();
-				
-				$('.item').click(function(){
-					$('.active').removeClass('active item');
-					$(this).addClass('active item');
-				});
-			
-			});
-			$('.item').click(function(){
-				$('.active').removeClass('active item');
-				$(this).addClass('active item');
-			});
 			
 			
 			
@@ -558,6 +544,7 @@
 	<script type="text/javascript" src="/js/angular.js"></script>
 	<script type="text/javascript"src="/js/tweet.js"></script>
 <script type="text/javascript">
+
 	$('#addTodo').on( "click", function() {
 			$('#addTodoModal').modal({
 				closable  : false,
@@ -565,6 +552,23 @@
 			  .modal('show');
                   
 		}); 
+	
+	$(document).ready(function(){
+		$('.menu .item').tab();
+	//----------------SIDEBAR----------------//
+	
+		$('.ui.checkbox').checkbox();
+		
+		$('.item').click(function(){
+			$('.active').removeClass('active item');
+			$(this).addClass('active item');
+		});
+	
+	});
+	$('.item').click(function(){
+		$('.active').removeClass('active item');
+		$(this).addClass('active item');
+	});
 	
 </script>
 
