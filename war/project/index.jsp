@@ -439,12 +439,11 @@
 				<!-- ALL, TODO -->
 					<div class="ui right attached tab segment" data-tab="all">
 						<div class="sixteen wide column">
-						
-							<div ng-repeat="item in tweetList" ng-show="tweets">
-			<textarea id="content_{{item.id}}">{{item.content}}</textarea> {{item.createdDate}}
+			<div ng-repeat="item in tweetList" ng-show="tweets">
+			<textarea  id="content_{{item.id}}" >{{item.content}}</textarea> {{item.createdDate}}
 			<button ng-click="updateClick(item.id, 'content_', item.createdDate)">save</button>
 			<button ng-click="deleteClick(item.id)">Delete</button>
-		</div>
+			</div>
 							
 					<c:forEach var="e" items="${todoList}">
 						<hr />

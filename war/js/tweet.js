@@ -62,22 +62,20 @@ var controller = module.controller("sampleController", function($scope, $http) {
 			
 		});
 	};
-	
 	$scope.updateClick = function(id, content, createdDate) {
 		$scope.errorDisplay = "";
 		
 		var jsonData = {
 				id: id,
-				content: document.getElementById(content + id).value,
+				content: document.getElementById(content+id).value,
 				createdDate: createdDate
 		};
 		
 		//TODO: Code ajax call for updating tweet, use the tweetClick function as guide.
-		
-		var tweetPromise = $http.get("update", jsonData);
+		var tweetPromise = $http.post("update", jsonData);
 		tweetPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
-				alert('Entry saved successfully!');
+				alert('Entry updated successfully!');
 				$scope.loadTweet();
 			} else {
 				var msg = "";
