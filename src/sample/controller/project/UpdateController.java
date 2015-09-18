@@ -48,7 +48,7 @@ public class UpdateController extends Controller {
             if (dto.getContent() == null || dto.getContent().isEmpty()) {
                 dto.getErrorList().add("Content is required.. please supply a tweet");
             } else {
-                dto = this.service.updateTweet(dto);
+                dto = this.service.updateTodo(dto);
             }
             
         } catch (Exception e) {
