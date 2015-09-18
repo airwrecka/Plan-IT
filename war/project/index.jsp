@@ -20,7 +20,7 @@
 
 <script type="text/javascript" src="/js/jquery-1.11.2.js"></script>
 	<script type="text/javascript" src="/js/angular.js"></script>
-	<script type="text/javascript"src="/js/tweet.js"></script>
+	<script type="text/javascript"src="/js/todo.js"></script>
 	<script type="text/javascript"src="/js/semantic.js"></script>
 <script type="text/javascript">
 
@@ -172,10 +172,7 @@
 						<a class="green item"  data-tab="work" ><i class="circle icon"></i> Work</a>
   
 					</div>
-				<div class="large labeled icon ui blue button" data-tab="events">
-				  <i class="plus icon"></i>
-				  Add Event
-				</div>
+				
 		</div>
 					
 		<div class= "ui attached tab" data-tab="todos">
@@ -446,25 +443,35 @@
 				  </div>
 				  
 				<!-- ALL, TODO -->
-					<div class="ui right attached tab segment" data-tab="all">
-						<div class="sixteen wide column">
+			<div class="ui right attached tab segment" data-tab="all">
+				<div class="sixteen wide column">
+				<h1>All TODOS</h1>
 			<div ng-repeat="item in tweetList" ng-show="tweets">
-			<textarea  id="content_{{item.id}}" >{{item.content}}</textarea> {{item.createdDate}}
-			<button ng-click="updateClick(item.id, 'content_', item.createdDate)">save</button>
-			<button ng-click="deleteClick(item.id)">Delete</button>
-			</div>
-							
-					<c:forEach var="e" items="${todoList}">
-						<hr />
-						<div class="todoRow">
-							<textarea name="desc" class="desc">${f:h(e.desc)}</textarea> 
-							<input type="hidden" class="id" name="id" value="${f:h(e.id)}"/>
-							
-							<button class="btnUpdate">Save</button>
-							<button class="btnDelete">Delete</button>
-							<div class="updateErrorDisplay"></div>
-						</div>
-					</c:forEach>
+			
+				<table class="ui very basic table">
+									 
+					<tbody>
+					    <tr>
+						    <td>
+							     <div class="ui input"   >
+							     <input type="text"  id="content_{{item.id}}" value="{{item.content}}">
+							     <input type="hidden" value="{{item.createdDate}}"> 
+							     </div>
+								<button class="tiny labeled icon ui green button" ng-click="updateClick(item.id, 'content_', item.createdDate)">
+									<i class="add circle icon"></i>
+										Update
+								</button>
+					
+								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
+									<i class="remove circle icon"></i>
+										Delete
+								</button>
+							</td>
+					    </tr>
+				  </tbody>
+				</table>
+				</div>
+		
 					
 						</div>
 					</div>
@@ -535,7 +542,7 @@
                         </div>
 				<div ng-bind="errorDisplay"></div>
 					<!--<div id="btnAddTodo" class="ui inverted green basic button">Add</div>  -->	
-					<input   type="submit" ng-click="tweetClick()"  class="ui inverted green basic button" value="Add"/>
+					<input   type="submit" ng-click="todoClick()"  class="ui inverted green basic button" value="Add"/>
 						
 							</div>
 					</form> 

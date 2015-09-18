@@ -33,7 +33,7 @@ public class ListController extends Controller {
         JSONObject json = new JSONObject();
 
         try {
-            tweetList = service.getTweetList();
+            tweetList = service.getTodoList();
         } catch (Exception e) {
             e.printStackTrace();
             tweetList.getErrorList().add("Server controller error: " + e.getMessage());
