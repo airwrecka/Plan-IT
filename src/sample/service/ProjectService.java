@@ -27,14 +27,14 @@ public class ProjectService {
      * @param input - tweet to add.
      * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
      */
-    public TodoDto todo(TodoDto input) {
+    public TodoDto tweet(TodoDto input) {
         Todo Todo = new Todo();
         Todo.setCreatedDate(input.getCreatedDate());
         Todo.setContent(input.getContent());
         Todo.setItemCount(input.getItemCount());
         Todo.setType(input.getType());
 
-        if(!this.dao.saveTodo(Todo)) {
+        if(!this.dao.saveTweet(Todo)) {
             input.setErrorList(new ArrayList<String>());
             input.getErrorList().add("database error!");
         }
@@ -46,14 +46,15 @@ public class ProjectService {
      * Method used to retrieve list of tweets.
      * @return List<Tweet> - list of tweets.
      */
-    public TodoClientDto getTodoList() {
-        List<Todo> tweetModels = this.dao.getAllTodos();
+    public TodoClientDto getTweetList() {
+        List<Todo> tweetModels = this.dao.getAllTweets();
         TodoClientDto tweetList = new TodoClientDto();
         TodoDto tweetDto;
 
         for (Todo Todo : tweetModels) {
             tweetDto = new TodoDto();
             tweetDto.setId(Todo.getId());
+            tweetDto.setType(Todo.getType());
             tweetDto.setContent(Todo.getContent());
             tweetDto.setCreatedDate(Todo.getCreatedDate());
             tweetList.getTweetList().add(tweetDto);
@@ -67,13 +68,13 @@ public class ProjectService {
      * @param input - tweet to update.
      * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
      */
-    public TodoDto updateTodo(TodoDto input) {
+    public TodoDto updateTweet(TodoDto input) {
         Todo Todo = new Todo();
         Todo.setId(input.getId());
         Todo.setCreatedDate(Calendar.getInstance().getTime().toString());
         Todo.setContent(input.getContent());
 
-        if(!this.dao.updateTodo(Todo)) {
+        if(!this.dao.updateTweet(Todo)) {
             input.setErrorList(new ArrayList<String>());
             input.getErrorList().add("database error!");
         }
@@ -86,13 +87,13 @@ public class ProjectService {
      * @param input - tweet to delete.
      * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
      */
-    public TodoDto deleteTodo(TodoDto input) {
+    public TodoDto deleteTweet(TodoDto input) {
         Todo Todo = new Todo();
         Todo.setId(input.getId());
         Todo.setCreatedDate(input.getCreatedDate());
         Todo.setContent(input.getContent());
 
-        if(!this.dao.deleteTodo(Todo)) {
+        if(!this.dao.deleteTweet(Todo)) {
             input.setErrorList(new ArrayList<String>());
             input.getErrorList().add("database error!");
         }

@@ -20,7 +20,8 @@
 
 <script type="text/javascript" src="/js/jquery-1.11.2.js"></script>
 	<script type="text/javascript" src="/js/angular.js"></script>
-	<script type="text/javascript"src="/js/todo.js"></script>
+	<script type="text/javascript"src="/js/tweet.js"></script>
+	<script type="text/javascript"src="/js/blur.js"></script>
 	<script type="text/javascript"src="/js/semantic.js"></script>
 <script type="text/javascript">
 
@@ -31,13 +32,30 @@
 	//----------------SIDEBAR----------------//
 	
 		$('.ui.checkbox').checkbox();
+	
+		$('.button').popup({
+            inline   : true,
+            hoverable: true,
+            position : 'top center',
+                    delay: {
+                    show: 100,
+                    hide: 50
+                    }
+});
 		
+		
+		$('#menuDiv').blurjs({
+			source: 'body',
+			overlay: 'rgba(0,100,100,0.1)'
+		});
 		
 	});
-	$('.item').click(function(){
+	$('.item').click(function(){ 
 		$('.active').removeClass('active item');
 		$(this).addClass('active item');
 	});
+	
+	
 
 	
 </script>
@@ -49,111 +67,34 @@
 <body  ng-controller="sampleController" data-ng-init="init()">
 <link rel="stylesheet/less" type="text/css" href="../SemanticUI/src/definitions/collections/menu.less" />
 
-<div class ="ui grid">
-	<div class="fixed tab left floated header segment" >
-  <div class="container" >
-    <div class="introduction" >
-
-    
-      <div style="padding:2em 0em 0em 2em" >
-      <h1>   </h1>
-       <img src="../pics/planit1_150px.png">
-      </div>
-      
-     
-      
-      <div class="ui divider"></div>
-      </div>
-      </div>
-      </div>
-			
-	<div class="three wide left floated column" style="padding:0em 0em 0em 2em; position:relative " >		
+<div >
+<div class ="ui grid" >
+	<div class="two column row">
+		<div class="four wide left floated column">
+		<div class="fixed left floated header segment" >
+	  		<div class="container" >
+	    		<div class="introduction" >
+	      			<div style="padding:0em 0em 0em 8em" >
+	     				 <h1>   </h1>
+	      				 <img src="../pics/planit1_300px.png">
+	      			</div>    
+	      		</div>
+	      </div>
+	      
+	      
+		</div>	
+	</div>
 	
-	
-	<!-- CALENDAR -->
-	<div class="row" id="calendar1">
-	
-	<section class="container">
-    <table class="cal">
-      <caption>
-        <span class="prev"><a href="index.html">&larr;</a></span>
-        <span class="next"><a href="index.html">&rarr;</a></span>
-        January 2012
-      </caption>
-      <thead>
-        <tr>
-          <th>Mon</th>
-          <th>Tue</th>
-          <th>Wed</th>
-          <th>Thu</th>
-          <th>Fri</th>
-          <th>Sat</th>
-          <th>Sun</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="off"><a href="index.html">26</a></td>
-          <td class="off"><a href="index.html">27</a></td>
-          <td class="off"><a href="index.html">28</a></td>
-          <td class="off"><a href="index.html">29</a></td>
-          <td class="off"><a href="index.html">30</a></td>
-          <td class="off"><a href="index.html">31</a></td>
-          <td><a href="index.html">1</a></td>
-        </tr>
-        <tr>
-          <td><a href="index.html">2</a></td>
-          <td><a href="index.html">3</a></td>
-          <td><a href="index.html">4</a></td>
-          <td><a href="index.html">5</a></td>
-          <td><a href="index.html">6</a></td>
-          <td><a href="index.html">7</a></td>
-          <td><a href="index.html">8</a></td>
-        </tr>
-        <tr>
-          <td><a href="index.html">9</a></td>
-          <td><a href="index.html">10</a></td>
-          <td><a href="index.html">11</a></td>
-          <td><a href="index.html">12</a></td>
-          <td><a href="index.html">13</a></td>
-          <td><a href="index.html">14</a></td>
-          <td><a href="index.html">15</a></td>
-        </tr>
-        <tr>
-          <td><a href="index.html">16</a></td>
-          <td><a href="index.html">17</a></td>
-          <td><a href="index.html">18</a></td>
-          <td><a href="index.html">19</a></td>
-          <td><a href="index.html">20</a></td>
-          <td><a href="index.html">21</a></td>
-          <td><a href="index.html">22</a></td>
-        </tr>
-        <tr>
-          <td><a href="index.html">23</a></td>
-          <td><a href="index.html">24</a></td>
-          <td><a href="index.html">25</a></td>
-          <td><a href="index.html">26</a></td>
-          <td><a href="index.html">27</a></td>
-          <td class="active"><a href="index.html">28</a></td>
-          <td><a href="index.html">29</a></td>
-        </tr>
-        <tr>
-          <td><a href="index.html">30</a></td>
-          <td><a href="index.html">31</a></td>
-          <td class="off"><a href="index.html">1</a></td>
-          <td class="off"><a href="index.html">2</a></td>
-          <td class="off"><a href="index.html">3</a></td>
-          <td class="off"><a href="index.html">4</a></td>
-          <td class="off"><a href="index.html">5</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
 	
 	</div>
+	<div class="ui divider"></div>
+</div>
+<div class ="ui two column centered grid" id="bg">			
+	<div class="four wide left floated column" style="padding:0em 0em 0em 7em; "  id="menuDiv">		
+
 		
 		<!-- EVENTS / TODOS MENU -->
+	<!-- EVENTS / TODOS MENU -->
 		<div class="ui secondary large pointing menu">
 		  <a class="active blue item" data-tab="events">
 		    <i class="book icon"></i> Events
@@ -182,7 +123,7 @@
 						<a class="green item" data-tab="action" ><i class="list layout icon"></i> Action</a>
   
 					</div>
-				<div class="large labeled icon ui blue button" id="addTodo">
+				<div class="medium labeled icon ui blue button" id="addTodo">
 				  <i class="plus icon"></i>
 
 				  Add Todo
@@ -190,94 +131,85 @@
 				
 			</div>
 			
-			
 		</div>
-		
-		
-		
-		
+
 		<!-- MENU CONTENT, EVENTS -->
-		<div class="eight wide centered column" style="padding:0em 0em 0em 2em">
+		<div class="twelve wide column" style="padding:0em 12em 0em 3em">
 		 					
 					
 			<!-- DEFAULT, EVENT -->
-					<div class="ui right attached active tab segment" data-tab="events">
-						
+					<div class="ui right attached tab segment" data-tab="personal">
+					
+				<!-- DISPLAY TODOS in EVENTS -->			
 						<div class="sixteen wide column">
-							<h1>TODOS FOR TODAY</h1>
-							<table class="ui very basic table">
-							 
-							  <tbody>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Go shopping</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Clean house</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Cook dinner</label>
-								    </div>
-								    </td>
-							    </tr>
-							  </tbody>
-							</table>
+						<div class="menu">
+				   		 <div class="item">
+				      		<div class="ui icon input">
+				        		<input type="text" placeholder="Search...">
+				        	<i class="search link icon"></i>
+				      		</div>
+				    	</div>
+			    	</div>
+						<table class="ui blue table" >
+						<thead>
+					    	<tr>
+					    		<th> Event Name</th>
+					    		<th> Todo </th>
+					    		<th> Status </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+							<tbody >
+								<tr ng-repeat="item in eventTodoList" ng-show="events">
+									<td>
+									{{item.eventName}}
+									</td>
+									
+									<td>
+									{{item.todoID}}
+									</td>
+								
+									<td>  
+										<div class="ui input">
+										<input type="text" id="status_{{item.id}}" value="{{item.status}}">
+										</div>
+									</td>
+									<td>
+										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+											<i class="add circle icon"></i>
+											Save
+										</button>
+									</td>
+									<td>	
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+											<i class="remove circle icon"></i>
+											Delete
+										</button>
+									</td>
+								</tr>
+							</tbody>
 							
-							<h4 class="ui horizontal header divider">
-							    <i class="checkmark box icon"></i>
-							    For Tomorrow
-							  </h4>
-							  
-							<table class="ui very basic table">
-							 
-							  <tbody>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Todo 1</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Todo 2</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Todo 3</label>
-								    </div>
-								    </td>
-							    </tr>
-							  </tbody>
-							</table>
+						</table>
+					
+							
 						</div>
 					</div>
 					
 					<!-- PERSONAL EVENT -->
-					<div class="ui right attached tab segment" data-tab="personal">
-						<!-- PERSONAL EVENT -->
+					
+					<div class="ui right attached tab segment" data-tab="events">
+						 
 						<div class="sixteen wide column" >
 							<h1>PERSONAL</h1>
-							
+							<div class="menu">
+				   		 <div class="item">
+				      		<div class="ui icon input">
+				        		<input type="text" placeholder="Search...">
+				        	<i class="search link icon"></i>
+				      		</div>
+				    	</div>
+			    	</div>
 						<table class="ui very basic table">
 							 
 							  <tbody>
@@ -308,7 +240,7 @@
 							  </tbody>
 							</table>
 							
-							<div class="tiny labeled icon ui green button" >
+							<div class="tiny labeled icon ui green button" id="addeventtodo">
 							  <i class="plus icon"></i>
 							  Add Todo
 							</div>
@@ -350,7 +282,14 @@
 						
 						<div class="sixteen wide column" >
 							<h1>SCHOOL</h1>
-							
+							<div class="menu">
+				   		 <div class="item">
+				      		<div class="ui icon input">
+				        		<input type="text" placeholder="Search...">
+				        	<i class="search link icon"></i>
+				      		</div>
+				    	</div>
+			    	</div>
 							<table class="ui very basic table">
 							 
 							  <tbody>
@@ -380,7 +319,7 @@
 							    </tr>
 							  </tbody>
 							</table>
-							<div class="tiny labeled icon ui green button" >
+							<div class="tiny labeled icon ui green button" id="addeventtodo">
 							  <i class="plus icon"></i>
 							  Add Todo
 							</div>
@@ -392,7 +331,14 @@
 						
 						<div class="sixteen wide column" >
 							<h1>WORK</h1>
-							
+							<div class="menu">
+				   		 <div class="item">
+				      		<div class="ui icon input">
+				        		<input type="text" placeholder="Search...">
+				        	<i class="search link icon"></i>
+				      		</div>
+				    	</div>
+			    	</div>
 							<table class="ui very basic table">
 							 
 							  <tbody>
@@ -422,7 +368,7 @@
 							    </tr>
 							  </tbody>
 							</table>
-							<div class="tiny labeled icon ui green button" >
+							<div class="tiny labeled icon ui green button" id="addeventtodo">
 							  <i class="plus icon"></i>
 							  Add Todo
 							</div>
@@ -435,33 +381,48 @@
 			<!-- MENU CONTENT, TODOS -->
 			
 				<!-- DEFAULT, TODO -->
-					<div class="ui right attached tab segment" data-tab="todos" >
+					<div class="ui right attached active tab segment" data-tab="todos" >
 						<div class="sixteen wide column">
 							
 					</div>
 					
 				  </div>
-				  
-				<!-- ALL, TODO -->
+	
 			<div class="ui right attached tab segment" data-tab="all">
-				<div class="sixteen wide column">
-				<h1>All TODOS</h1>
-			<div ng-repeat="item in tweetList" ng-show="tweets">
+						<div class="sixteen wide column">
+			  
+				<!-- ALL, TODO -->
+					<div class="ui right attached tab segment" data-tab="all">
+						<div class="sixteen wide column">
 			
-				<table class="ui very basic table">
+				<table class="ui blue table">
 									 
-					<tbody>
-					    <tr>
+					<tbody >
+					    <thead>
+					    	<tr>
+					    		<th> TODO Description</th>
+					    		<th> Type </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+					    <tr ng-repeat="item in tweetList" ng-show="tweets">
 						    <td>
-							     <div class="ui input"   >
+							     <div class="ui input">
 							     <input type="text"  id="content_{{item.id}}" value="{{item.content}}">
 							     <input type="hidden" value="{{item.createdDate}}"> 
 							     </div>
+							 </td>
+							 <td>
+							 {{item.type}}
+							 </td>
+							 <td>
 								<button class="tiny labeled icon ui green button" ng-click="updateClick(item.id, 'content_', item.createdDate)">
 									<i class="add circle icon"></i>
 										Update
 								</button>
-					
+							</td>
+							<td>
 								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
 									<i class="remove circle icon"></i>
 										Delete
@@ -470,8 +431,7 @@
 					    </tr>
 				  </tbody>
 				</table>
-				</div>
-		
+			
 					
 						</div>
 					</div>
@@ -542,7 +502,7 @@
                         </div>
 				<div ng-bind="errorDisplay"></div>
 					<!--<div id="btnAddTodo" class="ui inverted green basic button">Add</div>  -->	
-					<input   type="submit" ng-click="todoClick()"  class="ui inverted green basic button" value="Add"/>
+					<input   type="submit" ng-click="tweetClick()"  class="ui inverted green basic button" value="Add"/>
 						
 							</div>
 					</form> 
@@ -554,16 +514,93 @@
 	</div>
 </div>
 	
+<!-- MODAL FOR ADDING TODO TO EVENT -->
+	
+	<div class ="ui small basic modal" id="addEventTodoModal">
+	 <i class="close icon"></i>
+                <div class="header">
+                Add Todo to Event
+                </div>
+				
+		<div class="content">
+			<div class ="ui centered grid">
+				<div class="column">
+					 <form class= "ui inverted form" >
+						
+							<div class="field">
+							<label>EVENT</label>
+								<select ng-model="event" class="ui fluid dropdown">
+									<option  value="" disabled default selected class="display-none">Select Type</option>
+									<option ${f:select("event", "Personal")}>Personal</option>
+									<option ${f:select("event", "School")}>School</option>
+									<option ${f:select("event", "Work")}>Work</option>
+								</select>
+							</div>
+						
+						
+						<div class="two fields ">
+						
+						 <div class="four wide field">
+							  <label>Item Count</label>
+							  <input ng-model="status"  type="tel" placeholder="status">
+						</div>
+						
+						 <div class="field">
+							  <label>Todo Name</label>
+							<!--   <input ng-model="todoName"  type="tel" placeholder="Todo Name"> -->
+							  
+							  <select ng-model="todoName" class="ui fluid dropdown" >
+									<option  value="" disabled default selected class="display-none">Select Type</option>
+									<option ng-repeat="item in tweetList" ng-show="tweets" id="content_{{item.id}}" ${f:select("todoName", "{{item.content}}")}>{{item.content}}</option>
+									 
+								</select>
+						</div>
+							
+						</div>
+						 
+				
+						<div class="two fluid ui inverted buttons">
+							<div class="ui inverted red basic button close icon" >
+                                 Cancel
+                        </div>
+				<div ng-bind="errorDisplay"></div>
+					<!--<div id="btnAddTodo" class="ui inverted green basic button">Add</div>  -->	
+					<input   type="submit" ng-click="addEventTodoClick()"  class="ui inverted green basic button" value="Add"/>
+						
+							</div>
+					</form> 
+				</div>
+		
+			</div>
+		
+	
+	</div>
+</div>
+
+</div>
+</div>
+
+</div>
+	
 </body>
 
 <script type="text/javascript">
+$('#addeventtodo').on( "click", function() {
+	$('#addEventTodoModal').modal({
+		closable  : false,
+	  })
+	  .modal('show');
+          
+});
 	$('#addTodo').on( "click", function() {
 			$('#addTodoModal').modal({
 				closable  : false,
 			  })
 			  .modal('show');
                   
-		}); 
+		});
+	
+	
 	
 </script>
 

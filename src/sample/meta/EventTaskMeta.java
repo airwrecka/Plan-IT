@@ -19,7 +19,7 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
     public final org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Integer> status = new org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Integer>(this, "status", "status", int.class);
 
     /** */
-    public final org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, com.google.appengine.api.datastore.Key> todoID = new org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, com.google.appengine.api.datastore.Key>(this, "todoID", "todoID", com.google.appengine.api.datastore.Key.class);
+    public final org.slim3.datastore.StringAttributeMeta<sample.model.EventTask> todoID = new org.slim3.datastore.StringAttributeMeta<sample.model.EventTask>(this, "todoID", "todoID");
 
     /** */
     public final org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Long> version = new org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Long>(this, "version", "version", java.lang.Long.class);
@@ -45,7 +45,7 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
         model.setId(longToPrimitiveLong((java.lang.Long) entity.getProperty("id")));
         model.setKey(entity.getKey());
         model.setStatus(longToPrimitiveInt((java.lang.Long) entity.getProperty("status")));
-        model.setTodoID(longToPrimitiveLong((java.lang.Long) entity.getProperty("todoID")));
+        model.setTodoID((java.lang.String) entity.getProperty("todoID"));
         model.setVersion((java.lang.Long) entity.getProperty("version"));
         return model;
     }

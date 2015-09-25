@@ -20,7 +20,7 @@ public class EventTask implements Serializable {
     private Long version;
     
     private String eventName;
-    private long todoID;
+    private String todoID;
     private long id;
     private int status;
     
@@ -101,11 +101,11 @@ public class EventTask implements Serializable {
 		this.eventName = eventName;
 	}
 
-	public long getTodoID() {
+	public String getTodoID() {
 		return todoID;
 	}
 
-	public void setTodoID(long todoID) {
+	public void setTodoID(String todoID) {
 		this.todoID = todoID;
 	}
 

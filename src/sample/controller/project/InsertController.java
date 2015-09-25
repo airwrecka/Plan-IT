@@ -46,7 +46,7 @@ public class InsertController extends Controller {
             if (dto.getContent() == null || dto.getContent().isEmpty()) {
                 dto.getErrorList().add("Content is required.. please supply a tweet");
             } else {
-                dto = this.service.todo(dto);
+                dto = this.service.tweet(dto);
             }
         } catch (Exception e) {
             dto.getErrorList().add("Server controller error: " + e.getMessage());

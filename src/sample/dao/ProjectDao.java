@@ -22,24 +22,25 @@ import com.google.appengine.api.datastore.Transaction;
 * Dao used to access the datastore for tweet transactions
 * @author Peter Clark Guisadio
 * @version 0.01
-* 
+* Version History
+* [05/07/2015] 0.01 Â?EPeter Clark Guisadio Â?EInitial codes.
 */
 public class ProjectDao {
 
     /**
      * Method used to save a tweet.
-     * @param todoModel - tweet to be saved.
+     * @param tweetModel - tweet to be saved.
      * @return Boolean - true, if tweet is saved; otherwise, false.
      */
-    public boolean saveTodo(Todo todoModel) {
+    public boolean saveTweet(Todo tweetModel) {
         boolean result = true;
         try {
             Transaction tx = Datastore.beginTransaction();
             //Manually allocate key
             Key key = Datastore.allocateId(KeyFactory.createKey("Account", "Default"), "Todo");
-            todoModel.setKey(key);
-            todoModel.setId(key.getId());
-            Datastore.put(todoModel);
+            tweetModel.setKey(key);
+            tweetModel.setId(key.getId());
+            Datastore.put(tweetModel);
             tx.commit();
         } catch (Exception e) {
             result = false;
@@ -51,7 +52,7 @@ public class ProjectDao {
      * Method used to retrieve list of tweets.
      * @return List<Tweet> - list of tweets.
      */
-    public List<Todo> getAllTodos() {
+    public List<Todo> getAllTweets() {
         TodoMeta t = new TodoMeta();
         Key parentKey = KeyFactory.createKey("Account", "Default");
         return Datastore.query(t ,parentKey).asList();
@@ -59,21 +60,21 @@ public class ProjectDao {
 
     /**
      * Method used to update a tweet.
-     * @param todoModel - tweet to save.
+     * @param tweetModel - tweet to save.
      * @return Boolean - true, if tweet is saved; otherwise, false.
      */
-    public boolean updateTodo(Todo todoModel) {
+    public boolean updateTweet(Todo tweetModel) {
         boolean result = true;
         TodoMeta tm = new TodoMeta();
 //        Query.Filter contentFilter = new Query.FilterPredicate("content", FilterOperator.EQUAL, tweetModel.getContent());
 //        Query.Filter dateFilter = new Query.FilterPredicate("createdDate", FilterOperator.EQUAL, tweetModel.getContent());
-        Query.Filter mainFilter = new Query.FilterPredicate("id", FilterOperator.EQUAL, todoModel.getId());
+        Query.Filter mainFilter = new Query.FilterPredicate("id", FilterOperator.EQUAL, tweetModel.getId());
 
         try {
             Todo originalTweetModel = Datastore.query(tm).filter(mainFilter).asSingle();
             if (originalTweetModel != null) {
-                originalTweetModel.setContent(todoModel.getContent());
-                originalTweetModel.setCreatedDate(todoModel.getCreatedDate());
+                originalTweetModel.setContent(tweetModel.getContent());
+                originalTweetModel.setCreatedDate(tweetModel.getCreatedDate());
                 Transaction tx = Datastore.beginTransaction();
                 Datastore.put(originalTweetModel);
                 tx.commit();
@@ -88,15 +89,15 @@ public class ProjectDao {
 
     /**
      * Method used to delete a tweet.
-     * @param todoModel - tweet to delete.
+     * @param tweetModel - tweet to delete.
      * @return Boolean - true, if tweet is deleted; otherwise, false.
      */
-    public boolean deleteTodo(Todo todoModel) {
+    public boolean deleteTweet(Todo tweetModel) {
         boolean result = true;
         TodoMeta tm = new TodoMeta();
 //        Query.Filter contentFilter = new Query.FilterPredicate("content", FilterOperator.EQUAL, tweetModel.getContent());
 //        Query.Filter dateFilter = new Query.FilterPredicate("createdDate", FilterOperator.EQUAL, tweetModel.getContent());
-        Query.Filter mainFilter = new Query.FilterPredicate("id", FilterOperator.EQUAL, todoModel.getId());
+        Query.Filter mainFilter = new Query.FilterPredicate("id", FilterOperator.EQUAL, tweetModel.getId());
 
         try {
             Todo originalTweetModel = Datastore.query(tm).filter(mainFilter).asSingle();

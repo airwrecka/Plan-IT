@@ -41,7 +41,7 @@ public class DeleteController extends Controller {
             json = new JSONObject((String)this.request.getReader().readLine());
 
             dto.setId(json.getLong("id"));
-            dto = this.service.deleteTodo(dto);
+            dto = this.service.deleteTweet(dto);
         } catch (Exception e) {
             dto.getErrorList().add("Server controller error: " + e.getMessage());
             if (json == null) {
