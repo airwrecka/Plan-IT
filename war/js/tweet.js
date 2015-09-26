@@ -3,6 +3,7 @@ var deleteTweet = function(formID) {
 	document[formID].submit();
 }
 
+
 var module = angular.module("sampleApp",[]);
 var controller = module.controller("sampleController", function($scope, $http) {
 	$scope.errorDisplay = "";
@@ -12,6 +13,8 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	$scope.event = "";
 	$scope.todoName = "";
 	$scope.status = "";
+	$scope.count=""; //count for event todo
+	$scope.progress= "";
 	
 	$scope.tweetList = [];
 	$scope.eventTodoList = [];
@@ -60,6 +63,7 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				for(var i=0 ; i < $scope.tweetList.length && keepGoing; i++){
 					if ($scope.content == $scope.tweetList[i].content){
 						keepGoing = false;
+						//alert('Duplicate Entry');
 					}
 					else{
 						keepGoing = true;
@@ -157,7 +161,8 @@ var controller = module.controller("sampleController", function($scope, $http) {
 		var jsonData = {
 				todoID : $scope.todoName,
 				event : $scope.event,
-				status : $scope.status
+				status : $scope.status,
+				count : $scope.count
 		};
 		
 		
@@ -181,11 +186,13 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	};	
 	$scope.loadEventTodos = function() {
 		var tweetPromise = $http.get("listeventtask");
+		
 	    $scope.content = "";
 	    
 		tweetPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
 				$scope.eventTodoList = data.eventTodoList;
+				$scope.progress = $scope.eventTodoList.length; //---------GET LIST COUNT
 				$scope.events = true;
 			} else {
 				var msg = "";

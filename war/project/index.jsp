@@ -108,7 +108,7 @@
 		<!-- SUB MENU OF EVENTS / TODOS -->
 		<div class= "ui attached active tab" data-tab="events">
 					<div class="ui secondary large vertical pointing menu"  >
-						<a class="active red item" data-tab="personal" ><i class="circle icon"></i> Personal</a>
+						<a class="red item" data-tab="personal" ><i class="circle icon"></i> Personal</a>
 						<a class="blue item" data-tab="school" ><i class="circle icon"></i> School related</a>
 						<a class="green item"  data-tab="work" ><i class="circle icon"></i> Work</a>
   
@@ -118,7 +118,7 @@
 					
 		<div class= "ui attached tab" data-tab="todos">
 					<div class="ui secondary large vertical pointing menu" >
-						<a class="active red item" data-tab="all" ><i class="folder open icon"></i> All</a>
+						<a class="red item" data-tab="all" ><i class="folder open icon"></i> All</a>
 						<a class="blue item" data-tab="item"><i class="list layout icon"></i> Item</a>
 						<a class="green item" data-tab="action" ><i class="list layout icon"></i> Action</a>
   
@@ -138,17 +138,22 @@
 		 					
 					
 			<!-- DEFAULT, EVENT -->
-					<div class="ui right attached tab segment" data-tab="personal">
+					<div class="ui right attached tab segment" data-tab="events">
 					
 				<!-- DISPLAY TODOS in EVENTS -->			
 						<div class="sixteen wide column">
 						<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
-				        		<input type="text" placeholder="Search...">
+				        		<input type="text" ng-model="searchTodo" placeholder="Search...">
 				        	<i class="search link icon"></i>
 				      		</div>
 				    	</div>
+				    	
+				    	<label>Percentage: {{progress}} </label>
+				    	<div class="ui red progress" data-percent="{{progress}}">
+						  <div class="bar" style="transition-duration: 300ms; width: 50%;"></div>
+						</div>
 			    	</div>
 						<table class="ui blue table" >
 						<thead>
@@ -161,7 +166,7 @@
 					    	</tr>
 					    </thead>
 							<tbody >
-								<tr ng-repeat="item in eventTodoList" ng-show="events">
+								<tr ng-repeat="item in eventTodoList | filter:searchTodo" ng-show="events">
 									<td>
 									{{item.eventName}}
 									</td>
@@ -171,9 +176,12 @@
 									</td>
 								
 									<td>  
-										<div class="ui input">
-										<input type="text" id="status_{{item.id}}" value="{{item.status}}">
-										</div>
+										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
+											<option  value="" disabled default selected class="display-none">{{item.status}}</option>
+											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "100")}>100%</option>
+										</select>
 									</td>
 									<td>
 										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
@@ -198,7 +206,7 @@
 					
 					<!-- PERSONAL EVENT -->
 					
-					<div class="ui right attached tab segment" data-tab="events">
+					<div class="ui right attached tab segment" data-tab="personal">
 						 
 						<div class="sixteen wide column" >
 							<h1>PERSONAL</h1>
@@ -210,35 +218,51 @@
 				      		</div>
 				    	</div>
 			    	</div>
-						<table class="ui very basic table">
-							 
-							  <tbody>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Go shopping</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Clean house</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Cook dinner</label>
-								    </div>
-								    </td>
-							    </tr>
-							  </tbody>
-							</table>
+						<table class="ui blue table" >
+						<thead>
+					    	<tr>
+					    		<th> Event Name</th>
+					    		<th> Todo </th>
+					    		<th> Status </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+							<tbody ng-model ="Personal">
+								<tr ng-repeat="item in eventTodoList | filter:Personal" ng-show="events">
+									<td>
+									{{item.eventName}}
+									</td>
+									
+									<td>
+									{{item.todoID}}
+									</td>
+								
+									<td>  
+										
+										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
+											
+											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "100")}>100%</option>
+										</select>
+									</td>
+									<td>
+										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+											<i class="add circle icon"></i>
+											Save
+										</button>
+									</td>
+									<td>	
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+											<i class="remove circle icon"></i>
+											Delete
+										</button>
+									</td>
+								</tr>
+							</tbody>
+							
+						</table>
 							
 							<div class="tiny labeled icon ui green button" id="addeventtodo">
 							  <i class="plus icon"></i>
@@ -538,18 +562,23 @@
 							</div>
 						
 						
-						<div class="two fields ">
+						<div class="three fields ">
 						
 						 <div class="four wide field">
-							  <label>Item Count</label>
+							  <label>Status</label>
 							  <input ng-model="status"  type="tel" placeholder="status">
+						</div>
+						
+						<div class="four wide field">
+							  <label>Item Count</label>
+							  <input ng-model="count"  type="tel" placeholder="count">
 						</div>
 						
 						 <div class="field">
 							  <label>Todo Name</label>
 							<!--   <input ng-model="todoName"  type="tel" placeholder="Todo Name"> -->
 							  
-							  <select ng-model="todoName" class="ui fluid dropdown" >
+							  <select ng-model="todoName" class="ui fluid dropdown">
 									<option  value="" disabled default selected class="display-none">Select Type</option>
 									<option ng-repeat="item in tweetList" ng-show="tweets" id="content_{{item.id}}" ${f:select("todoName", "{{item.content}}")}>{{item.content}}</option>
 									 

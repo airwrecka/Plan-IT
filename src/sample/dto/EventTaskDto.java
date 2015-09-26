@@ -13,6 +13,7 @@ public class EventTaskDto {
    // private String createdDate = new Date().toString();
     private String todoID;
     private int status;
+    private int count;
 
     public List<String> getErrorList() {
         return errorList;
@@ -43,6 +44,12 @@ public class EventTaskDto {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
   
 }

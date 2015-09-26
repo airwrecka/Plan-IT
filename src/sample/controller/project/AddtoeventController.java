@@ -31,6 +31,7 @@ public class AddtoeventController extends Controller {
             dto.setEventName(json.getString("event"));
             dto.setTodoID(json.getString("todoID"));
             dto.setStatus(json.getInt("status"));
+            dto.setCount(json.getInt("count"));
             
             if (dto.getEventName() == null || dto.getEventName().isEmpty()) {
                 dto.getErrorList().add("Content is required.. please supply a tweet");

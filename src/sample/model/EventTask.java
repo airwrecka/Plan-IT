@@ -23,6 +23,7 @@ public class EventTask implements Serializable {
     private String todoID;
     private long id;
     private int status;
+    private int count;
     
 
     /**
@@ -123,5 +124,13 @@ public class EventTask implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 }

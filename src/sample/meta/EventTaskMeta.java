@@ -17,6 +17,9 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
 
     /** */
     public final org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Integer> status = new org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Integer>(this, "status", "status", int.class);
+    
+    /** */
+    public final org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Integer> count = new org.slim3.datastore.CoreAttributeMeta<sample.model.EventTask, java.lang.Integer>(this, "count", "count", int.class);
 
     /** */
     public final org.slim3.datastore.StringAttributeMeta<sample.model.EventTask> todoID = new org.slim3.datastore.StringAttributeMeta<sample.model.EventTask>(this, "todoID", "todoID");
@@ -45,6 +48,7 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
         model.setId(longToPrimitiveLong((java.lang.Long) entity.getProperty("id")));
         model.setKey(entity.getKey());
         model.setStatus(longToPrimitiveInt((java.lang.Long) entity.getProperty("status")));
+        model.setCount(longToPrimitiveInt((java.lang.Long) entity.getProperty("count")));
         model.setTodoID((java.lang.String) entity.getProperty("todoID"));
         model.setVersion((java.lang.Long) entity.getProperty("version"));
         return model;
@@ -62,6 +66,7 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
         entity.setProperty("eventName", m.getEventName());
         entity.setProperty("id", m.getId());
         entity.setProperty("status", m.getStatus());
+        entity.setProperty("count", m.getCount());
         entity.setProperty("todoID", m.getTodoID());
         entity.setProperty("version", m.getVersion());
         entity.setProperty("slim3.schemaVersion", 1);
@@ -138,6 +143,9 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
         }
         writer.setNextPropertyName("status");
         encoder0.encode(writer, m.getStatus());
+        
+        writer.setNextPropertyName("count");
+        encoder0.encode(writer, m.getCount());
         writer.setNextPropertyName("todoID");
         if(m.getVersion() != null){
             writer.setNextPropertyName("version");
@@ -159,6 +167,8 @@ public final class EventTaskMeta extends org.slim3.datastore.ModelMeta<sample.mo
         m.setKey(decoder0.decode(reader, m.getKey()));
         reader = rootReader.newObjectReader("status");
         m.setStatus(decoder0.decode(reader, m.getStatus()));
+        reader = rootReader.newObjectReader("count");
+        m.setStatus(decoder0.decode(reader, m.getCount()));
         reader = rootReader.newObjectReader("todoID");
         m.setTodoID(decoder0.decode(reader, m.getTodoID()));
         reader = rootReader.newObjectReader("version");

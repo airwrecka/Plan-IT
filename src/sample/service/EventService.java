@@ -19,6 +19,7 @@ public class EventService {
         EventTask.setEventName(input.getEventName());
         EventTask.setTodoID(input.getTodoID());
         EventTask.setStatus(input.getStatus());
+        EventTask.setCount(input.getCount());
 
         if(!this.dao.saveEventTask(EventTask)) {
             input.setErrorList(new ArrayList<String>());
@@ -46,6 +47,7 @@ public class EventService {
             eventTaskDto.setEventName(EventTask.getEventName());
             eventTaskDto.setTodoID(EventTask.getTodoID());
             eventTaskDto.setStatus(EventTask.getStatus());
+            eventTaskDto.setCount(EventTask.getCount());
             eventTaskList.getEventTodoList().add(eventTaskDto);
         }}catch(Exception e){
         	e.printStackTrace();
