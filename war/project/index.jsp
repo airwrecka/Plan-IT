@@ -151,8 +151,8 @@
 				    	</div>
 				    	
 				    	<label>Percentage: {{progress}} </label>
-				    	<div class="ui red progress" data-percent="{{progress}}">
-						  <div class="bar" style="transition-duration: 300ms; width: 50%;"></div>
+				    	<div class="ui red progress" data-percent="{{prog}}">
+						  <div class="bar" style="transition-duration: 300ms; width: {{prog}} ;"></div>
 						</div>
 			    	</div>
 						<table class="ui blue table" >
@@ -177,7 +177,7 @@
 								
 									<td>  
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
-											<option  value="" disabled default selected class="display-none">{{item.status}}</option>
+											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
 											<option ${f:select("status", "0")}>0%</option>
 											<option ${f:select("status", "50")}>50%</option>
 											<option ${f:select("status", "100")}>100%</option>
@@ -209,7 +209,7 @@
 					<div class="ui right attached tab segment" data-tab="personal">
 						 
 						<div class="sixteen wide column" >
-							<h1>PERSONAL</h1>
+							<h1 >PERSONAL</h1>
 							<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
@@ -228,8 +228,8 @@
 					    		<th></th>
 					    	</tr>
 					    </thead>
-							<tbody ng-model ="Personal">
-								<tr ng-repeat="item in eventTodoList | filter:Personal" ng-show="events">
+							<tbody >
+								<tr ng-repeat="item in eventTodoList | filter:{eventName:'Personal'}" ng-show="events">
 									<td>
 									{{item.eventName}}
 									</td>
@@ -314,35 +314,51 @@
 				      		</div>
 				    	</div>
 			    	</div>
-							<table class="ui very basic table">
-							 
-							  <tbody>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Make homework</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Study Nihonggo</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Read book</label>
-								    </div>
-								    </td>
-							    </tr>
-							  </tbody>
-							</table>
+							<table class="ui blue table" >
+						<thead>
+					    	<tr>
+					    		<th> Event Name</th>
+					    		<th> Todo </th>
+					    		<th> Status </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+							<tbody >
+								<tr ng-repeat="item in eventTodoList | filter:{eventName:'School'}" ng-show="events">
+									<td>
+									{{item.eventName}}
+									</td>
+									
+									<td>
+									{{item.todoID}}
+									</td>
+								
+									<td>  
+										
+										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
+											
+											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "100")}>100%</option>
+										</select>
+									</td>
+									<td>
+										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+											<i class="add circle icon"></i>
+											Save
+										</button>
+									</td>
+									<td>	
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+											<i class="remove circle icon"></i>
+											Delete
+										</button>
+									</td>
+								</tr>
+							</tbody>
+							
+						</table>
 							<div class="tiny labeled icon ui green button" id="addeventtodo">
 							  <i class="plus icon"></i>
 							  Add Todo
@@ -363,35 +379,51 @@
 				      		</div>
 				    	</div>
 			    	</div>
-							<table class="ui very basic table">
-							 
-							  <tbody>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Make report</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Meeting with the boss</label>
-								    </div>
-								    </td>
-							    </tr>
-							    <tr>
-							    <td>
-							      <div class="ui checkbox">
-								      <input type="checkbox">
-								      <label>Branch visit</label>
-								    </div>
-								    </td>
-							    </tr>
-							  </tbody>
-							</table>
+							<table class="ui blue table" >
+						<thead>
+					    	<tr>
+					    		<th> Event Name</th>
+					    		<th> Todo </th>
+					    		<th> Status </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+							<tbody >
+								<tr ng-repeat="item in eventTodoList | filter:{eventName:'Work'}" ng-show="events">
+									<td>
+									{{item.eventName}}
+									</td>
+									
+									<td>
+									{{item.todoID}}
+									</td>
+								
+									<td>  
+										
+										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
+											
+											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "100")}>100%</option>
+										</select>
+									</td>
+									<td>
+										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+											<i class="add circle icon"></i>
+											Save
+										</button>
+									</td>
+									<td>	
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+											<i class="remove circle icon"></i>
+											Delete
+										</button>
+									</td>
+								</tr>
+							</tbody>
+							
+						</table>
 							<div class="tiny labeled icon ui green button" id="addeventtodo">
 							  <i class="plus icon"></i>
 							  Add Todo
@@ -464,7 +496,42 @@
 				<!-- ITEM, TODO -->
 					<div class="ui right attached tab segment" data-tab="item">
 						<div class="sixteen wide column">
-							
+							<table class="ui blue table">
+									 
+					<tbody >
+					    <thead>
+					    	<tr>
+					    		<th> TODO Description</th>
+					    		<th> Type </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+					    <tr ng-repeat="item in tweetList | filter:{type:'Item'}" ng-show="tweets">
+						    <td>
+							     <div class="ui input">
+							     <input type="text"  id="content_{{item.id}}" value="{{item.content}}">
+							     <input type="hidden" value="{{item.createdDate}}"> 
+							     </div>
+							 </td>
+							 <td>
+							 {{item.type}}
+							 </td>
+							 <td>
+								<button class="tiny labeled icon ui green button" ng-click="updateClick(item.id, 'content_', item.createdDate)">
+									<i class="add circle icon"></i>
+										Update
+								</button>
+							</td>
+							<td>
+								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
+									<i class="remove circle icon"></i>
+										Delete
+								</button>
+							</td>
+					    </tr>
+				  </tbody>
+				</table>
 							
 						</div>
 					</div>
@@ -472,7 +539,42 @@
 				<!-- ACTION, TODO -->
 					<div class="ui right attached tab segment" data-tab="action">
 						<div class="sixteen wide column">
-							Action Todos
+							<table class="ui blue table">
+									 
+					<tbody >
+					    <thead>
+					    	<tr>
+					    		<th> TODO Description</th>
+					    		<th> Type </th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+					    <tr ng-repeat="item in tweetList | filter:{type:'Action'}" ng-show="tweets">
+						    <td>
+							     <div class="ui input">
+							     <input type="text"  id="content_{{item.id}}" value="{{item.content}}">
+							     <input type="hidden" value="{{item.createdDate}}"> 
+							     </div>
+							 </td>
+							 <td>
+							 {{item.type}}
+							 </td>
+							 <td>
+								<button class="tiny labeled icon ui green button" ng-click="updateClick(item.id, 'content_', item.createdDate)">
+									<i class="add circle icon"></i>
+										Update
+								</button>
+							</td>
+							<td>
+								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
+									<i class="remove circle icon"></i>
+										Delete
+								</button>
+							</td>
+					    </tr>
+				  </tbody>
+				</table>
 						</div>
 					</div>	
 					

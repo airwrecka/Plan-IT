@@ -15,6 +15,11 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	$scope.status = "";
 	$scope.count=""; //count for event todo
 	$scope.progress= "";
+	$scope.prog="";
+	$scope.isPersonal="";
+	
+	var p ="";
+
 	
 	$scope.tweetList = [];
 	$scope.eventTodoList = [];
@@ -166,6 +171,7 @@ var controller = module.controller("sampleController", function($scope, $http) {
 		};
 		
 		
+		
 		var todoEventPromise = $http.post("addtoevent", jsonData);
 		todoEventPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
@@ -189,10 +195,16 @@ var controller = module.controller("sampleController", function($scope, $http) {
 		
 	    $scope.content = "";
 	    
+	    
 		tweetPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
 				$scope.eventTodoList = data.eventTodoList;
+				
+				
+				
+					
 				$scope.progress = $scope.eventTodoList.length; //---------GET LIST COUNT
+				$scope.prog = ($scope.progress + 40) + "%";
 				$scope.events = true;
 			} else {
 				var msg = "";
@@ -201,10 +213,14 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				$scope.errorDisplay = msg;
 			}
 		});
-		tweetPromise.error(function(data, status, headers, config) {
+		tweetPromise.error(function(data, status, headers, config) {});
+		
 
-		});
 	};
+
+	
+	
+	
 	$scope.updateEventTaskClick = function(id, status) {
 		$scope.errorDisplay = "";
 		
