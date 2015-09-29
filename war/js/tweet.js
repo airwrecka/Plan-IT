@@ -17,14 +17,28 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	$scope.progress= "";
 	$scope.prog="";
 	$scope.isPersonal="";
+	$scope.progSchool = 0;
+	$scope.progWork = 0;
+	$scope.progPersonal = 0;
+	//------
+	$scope.isLessPersonal ="";
+	$scope.isLessSchool ="";
+	$scope.isLessWork ="";
+	
 	
 	var p ="";
 
 	
 	$scope.tweetList = [];
 	$scope.eventTodoList = [];
+	$scope.eventPersonal =[];
+	$scope.eventWork =[];
+	$scope.eventSchool =[];
 	
-
+	
+	/*
+	* LIST TODOS
+	*/
 	$scope.loadTweet = function() {
 		var tweetPromise = $http.get("list");
 	    $scope.content = "";
@@ -44,12 +58,26 @@ var controller = module.controller("sampleController", function($scope, $http) {
 
 		});
 	};
-
+	
+	//----------------------------------------------------------------------------------
+	
+	/*
+	 * 		INITTIALIZATION
+	 * */
 	$scope.init = function () {
 		this.loadEventTodos();
 		this.loadTweet();
+		this.numberOfPersonal();
+		this.numberOfWork();
+		this.numberOfSchool();
 		
 	};
+	
+	//----------------------------------------------------------------------------------
+	
+	/*
+	 * INSERT NEW TODO
+	 * */
 
 	$scope.tweetClick = function() {
 		$scope.errorDisplay = "";
@@ -58,7 +86,7 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	    var jsonData = {
 				content: $scope.content,
 				type: $scope.type,
-				itemCount: $scope.itemCount,
+				itemCount: 0,
 				createdDate: new Date()
 		};
 
@@ -106,6 +134,13 @@ var controller = module.controller("sampleController", function($scope, $http) {
 			
 		});
 	};
+	
+	
+	//----------------------------------------------------------------------------------
+	
+	/*
+	 * UPDATE TODO
+	 * */
 	$scope.updateClick = function(id, content, createdDate) {
 		$scope.errorDisplay = "";
 		
@@ -114,7 +149,7 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				content: document.getElementById(content+id).value,
 				createdDate: createdDate
 		};
-		
+
 	
 		var tweetPromise = $http.post("update", jsonData);
 		tweetPromise.success(function(data, status, headers, config) {
@@ -135,48 +170,126 @@ var controller = module.controller("sampleController", function($scope, $http) {
 		
 	};
 	
-	$scope.deleteClick = function(id) {
+	
+	//----------------------------------------------------------------------------------
+	
+	/*
+	 * DELETE TODO
+	 * */
+	$scope.deleteClick = function(id, content) {
 		$scope.errorDisplay = "";
-		
+		var eventTodoPromise = $http.get("listeventtask");
+		var keepGoing = true;
+		var contentTodo = document.getElementById(content+id).value;
 		var jsonData = {
-				id: id
+				id: id,
+				
 		};
 		
 	
 		
-		var tweetPromise = $http.post("delete", jsonData);
-		tweetPromise.success(function(data, status, headers, config) {
-			if(data.errorList.length == 0) {
-				alert('Entry deleted successfully!');
-				$scope.loadTweet();
-			} else {
+		eventTodoPromise.success(function (data, status, headers, config){
+			if(data.errorList.length == 0){
+				$scope.eventTodoList = data.eventTodoList;
+				for(var i=0 ; i < $scope.eventTodoList.length && keepGoing; i++){
+					if ($scope.eventTodoList[i].todoID ==contentTodo){
+						keepGoing = false;
+						
+					}
+					else{
+						keepGoing = true;
+						
+						
+					}	
+				}
+			if(keepGoing){
+				
+				var tweetPromise = $http.post("delete", jsonData);
+				tweetPromise.success(function(data, status, headers, config) {
+				if(data.errorList.length == 0) {
+					
+					alert('Entry deleted successfully!');
+					$scope.loadTweet();
+				} else {
+					var msg = "";
+					for (var i = 0; i < data.errorList.length; i++)
+						msg += data.errorList[i] + "\n";
+					$scope.errorDisplay = msg;
+				}
+				
+				
+			});
+				
+			}	
+			else{
+				alert('Cannot delete todo. Remove selected Todo from Events first');
+			}
+				
+				
+			}else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
 					msg += data.errorList[i] + "\n";
 				$scope.errorDisplay = msg;
 			}
+			
 		});
-		tweetPromise.error(function(data, status, headers, config) {
+		
+	
+		eventTodoPromise.error(function(data, status, headers, config) {
 			
 		});
 	};
+	
+	
+	//----------------------------------------------------------------------------------
+	
+	/*
+	 * ADD TODO IN EVENT
+	 **/
+	 
 	$scope.addEventTodoClick = function() {
 		$scope.errorDisplay = "";
-		
+		var eventTodoPromise = $http.get("listeventtask");
+	    var keepGoing = true;
 		var jsonData = {
 				todoID : $scope.todoName,
 				event : $scope.event,
-				status : $scope.status,
+				status : 0,
 				count : $scope.count
 		};
-		
-		
-		
-		var todoEventPromise = $http.post("addtoevent", jsonData);
-		todoEventPromise.success(function(data, status, headers, config) {
+		eventTodoPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
-				alert('Entry saved successfully!');
-				$scope.loadEventTodos();
+				$scope.eventTodoList = data.eventTodoList;
+				for(var i=0 ; i < $scope.eventTodoList.length && keepGoing; i++){
+					if ($scope.todoName == $scope.eventTodoList[i].todoID && $scope.event == $scope.eventTodoList[i].eventName){
+						keepGoing = false;
+						//alert('Duplicate Entry');
+					}
+					else{
+						keepGoing = true;
+						
+					}	
+				}
+				if(keepGoing){
+					var eventTodoPromise = $http.post("addtoevent", jsonData);
+					eventTodoPromise.success(function(data, status, headers, config) {
+						if(data.errorList.length == 0) {
+							alert('Entry saved successfully!');
+							$scope.loadEventTodos();
+						} else {
+							var msg = "";
+							for (var i = 0; i < data.errorList.length; i++)
+								msg += data.errorList[i] + "\n";
+							$scope.errorDisplay = msg;
+						}
+					});
+				}
+				else{
+					alert('Todo is already on the list!');
+				}
+					
+				
 			} else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
@@ -184,12 +297,17 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				$scope.errorDisplay = msg;
 			}
 		});
-		todoEventPromise.error(function(data, status, headers, config) {
+
+		eventTodoPromise.error(function(data, status, headers, config) {
 			
 		});
-		
-		
-	};	
+	};
+	
+	
+	//----------------------------------------------------------------------------------
+	/*
+	 * DISPLAY EVENT TODO LIST
+	 * */
 	$scope.loadEventTodos = function() {
 		var tweetPromise = $http.get("listeventtask");
 		
@@ -198,13 +316,9 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	    
 		tweetPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
+				
 				$scope.eventTodoList = data.eventTodoList;
-				
-				
-				
-					
-				$scope.progress = $scope.eventTodoList.length; //---------GET LIST COUNT
-				$scope.prog = ($scope.progress + 40) + "%";
+		
 				$scope.events = true;
 			} else {
 				var msg = "";
@@ -217,25 +331,30 @@ var controller = module.controller("sampleController", function($scope, $http) {
 		
 
 	};
-
+	//----------------------------------------------------------------------------------
 	
-	
+	/*
+	 * UPDATE TODO IN EVENT
+	 * */
 	
 	$scope.updateEventTaskClick = function(id, status) {
 		$scope.errorDisplay = "";
 		
 		var jsonData = {
 				id: id,
-				status: document.getElementById(status+id).value,
+				status: document.getElementById(status+id).value
 		
 		};
+
 		
-		
-		var todoEventPromise = $http.post("updateeventtodo", jsonData);
-		todoEventPromise.success(function(data, status, headers, config) {
+		var tweetPromise = $http.post("updateeventtodo", jsonData);
+		tweetPromise.success(function(data, status, headers, config) {
 			if(data.errorList.length == 0) {
 				alert('Entry updated successfully!');
 				$scope.loadEventTodos();
+				$scope.numberOfPersonal();
+				$scope.numberOfWork();
+				$scope.numberOfSchool();
 			} else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
@@ -243,26 +362,107 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				$scope.errorDisplay = msg;
 			}
 		});
-		todoEventPromise.error(function(data, status, headers, config) {
+		tweetPromise.error(function(data, status, headers, config) {
 			
 		});
 		
 		
 	};
+	//----------------------------------------------------------------------------------
 	
-	$scope.deleteEventTaskClick = function(id) {
+	/*
+	 * DELETE TODO IN EVENT
+	 * */
+		$scope.deleteEventTaskClick = function(id,event) {
 		$scope.errorDisplay = "";
 		
+		var eventTodoPromise = "";
+		var keepGoing = true;
+	
 		var jsonData = {
-				id: id
+				id: id,
+				event: event
 		};
 		
+		
+		if (jsonData.event == "Personal"){
+			eventTodoPromise = $http.get("listpersonal");
+		}
+		else if (jsonData.event == "School"){
+			eventTodoPromise = $http.get("listschool");
+		}
+		else if (jsonData.event == "Work"){
+			eventTodoPromise = $http.get("listwork");
+		}
+		
+		eventTodoPromise.success(function (data, status, headers, config){
+			if(data.errorList.length == 0){
+				
+				$scope.eventTodoList = data.eventTodoList;
+			
+					if ($scope.eventTodoList.length == 2){
+						alert('Todo cannot be deleted. Minimum of 2 Todos per event');
+						$scope.loadEventTodos();
+								
+					}
+					else{
+							
+					var todoEventPromise = $http.post("deleteeventtodo", jsonData);
+					todoEventPromise.success(function(data, status, headers, config) {
+						if(data.errorList.length == 0) {
+						
+						alert('Entry deleted successfully!');
+								$scope.loadEventTodos();
+								$scope.numberOfPersonal();
+								$scope.numberOfWork();
+								$scope.numberOfSchool();
+							
+						} else {
+							var msg = "";
+							for (var i = 0; i < data.errorList.length; i++)
+								msg += data.errorList[i] + "\n";
+							$scope.errorDisplay = msg;
+						}
+					});
+						
+					}	
+			
 	
-		var todoEventPromise = $http.post("deleteeventtodo", jsonData);
+				
+			}
+			else {
+				var msg = "";
+				for (var i = 0; i < data.errorList.length; i++)
+					msg += data.errorList[i] + "\n";
+				$scope.errorDisplay = msg;
+			}
+			
+			
+			
+		});
+	
+		
+		eventTodoPromise.error(function(data, status, headers, config) {
+			
+		});
+	};
+	
+	//-------------------------------------------------------------------------
+	
+	/*
+	 * FUNCTIONS FOR PROGRESS COMPUTATIONS
+	 * */
+	$scope.numberOfPersonal = function() {
+		$scope.errorDisplay = "";
+		var todoEventPromise = $http.get("listpersonal");
 		todoEventPromise.success(function(data, status, headers, config) {
-			if(data.errorList.length == 0) {
-				alert('Entry deleted successfully!');
-				$scope.loadEventTodos();
+			if(data.errorList.length == 0  && data.eventTodoList.length != 0) {
+				var sum = 0;
+				$scope.eventPersonal = data.eventTodoList;
+				for (var i =0 ; i < $scope.eventPersonal.length ; i++){
+					sum += $scope.eventPersonal[i].status ;
+				}
+				$scope.progPersonal = sum / $scope.eventPersonal.length
 			} else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
@@ -274,4 +474,52 @@ var controller = module.controller("sampleController", function($scope, $http) {
 			
 		});
 	};
+	$scope.numberOfSchool = function() {
+		$scope.errorDisplay = "";
+		var todoEventPromise = $http.get("listschool");
+		todoEventPromise.success(function(data, status, headers, config) {
+			if(data.errorList.length == 0  && data.eventTodoList.length != 0) {
+				var sum = 0;
+				$scope.eventSchool = data.eventTodoList;
+				for (var i =0 ; i < $scope.eventSchool.length ; i++){
+					sum += $scope.eventSchool[i].status ;
+				}
+				$scope.progSchool = sum / $scope.eventSchool.length
+			} else {
+				var msg = "";
+				for (var i = 0; i < data.errorList.length; i++)
+					msg += data.errorList[i] + "\n";
+				$scope.errorDisplay = msg;
+			}
+		});
+		todoEventPromise.error(function(data, status, headers, config) {
+			
+		});
+	};
+	$scope.numberOfWork = function() {
+		$scope.errorDisplay = "";
+		var todoEventPromise = $http.get("listwork");
+		todoEventPromise.success(function(data, status, headers, config) {
+			if(data.errorList.length == 0 && data.eventTodoList.length != 0) {
+				var sum = 0;
+				$scope.eventWork = data.eventTodoList;
+				for (var i =0 ; i < $scope.eventWork.length ; i++){
+					sum += $scope.eventWork[i].status ;
+				}
+				$scope.progWork = sum / $scope.eventWork.length
+			} else {
+				var msg = "";
+				for (var i = 0; i < data.errorList.length; i++)
+					msg += data.errorList[i] + "\n";
+				$scope.errorDisplay = msg;
+			}
+		});
+		todoEventPromise.error(function(data, status, headers, config) {
+			
+		});
+	};
+	
+	//-----------------------------------------------------------------------
+	
+	
 });

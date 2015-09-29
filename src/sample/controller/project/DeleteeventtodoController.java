@@ -14,7 +14,7 @@ public class DeleteeventtodoController extends Controller {
 
     @Override
     protected Navigation run() throws Exception {
-        //TODO: Use TweetController.java as guide, code controller code for deleting tweet.
+      
         EventTaskDto dto = new EventTaskDto();
         JSONObject json = null;
         try {

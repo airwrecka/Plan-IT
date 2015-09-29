@@ -33,16 +33,7 @@
 	
 		$('.ui.checkbox').checkbox();
 	
-		$('.button').popup({
-            inline   : true,
-            hoverable: true,
-            position : 'top center',
-                    delay: {
-                    show: 100,
-                    hide: 50
-                    }
-});
-		
+				
 		
 		$('#menuDiv').blurjs({
 			source: 'body',
@@ -106,9 +97,9 @@
 		
 		
 		<!-- SUB MENU OF EVENTS / TODOS -->
-		<div class= "ui attached active tab" data-tab="events">
+		<div class= "ui attached active tab" id="tabEvent" data-tab="events">
 					<div class="ui secondary large vertical pointing menu"  >
-						<a class="red item" data-tab="personal" ><i class="circle icon"></i> Personal</a>
+						<a class="red item" data-tab="personal" id="per"><i class="circle icon"></i> Personal</a>
 						<a class="blue item" data-tab="school" ><i class="circle icon"></i> School related</a>
 						<a class="green item"  data-tab="work" ><i class="circle icon"></i> Work</a>
   
@@ -116,9 +107,9 @@
 				
 		</div>
 					
-		<div class= "ui attached tab" data-tab="todos">
+		<div class= "ui attached tab" id="tabTodo" data-tab="todos">
 					<div class="ui secondary large vertical pointing menu" >
-						<a class="red item" data-tab="all" ><i class="folder open icon"></i> All</a>
+						<a class="red item" data-tab="all" id="all"><i class="folder open icon"></i> All</a>
 						<a class="blue item" data-tab="item"><i class="list layout icon"></i> Item</a>
 						<a class="green item" data-tab="action" ><i class="list layout icon"></i> Action</a>
   
@@ -150,10 +141,10 @@
 				      		</div>
 				    	</div>
 				    	
-				    	<label>Percentage: {{progress}} </label>
-				    	<div class="ui red progress" data-percent="{{prog}}">
-						  <div class="bar" style="transition-duration: 300ms; width: {{prog}} ;"></div>
-						</div>
+				    	<br/>
+				    	
+				    	
+				    	
 			    	</div>
 						<table class="ui blue table" >
 						<thead>
@@ -166,7 +157,7 @@
 					    	</tr>
 					    </thead>
 							<tbody >
-								<tr ng-repeat="item in eventTodoList | filter:searchTodo" ng-show="events">
+								<tr ng-show="filtery.length!=0" ng-repeat="item in filtery = (eventTodoList | filter:searchTodo)" ng-show="events">
 									<td>
 									{{item.eventName}}
 									</td>
@@ -179,21 +170,34 @@
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
 											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
 											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "10")}>10%</option>
+											<option ${f:select("status", "20")}>20%</option>
+											<option ${f:select("status", "30")}>30%</option>
+											<option ${f:select("status", "40")}>40%</option>
 											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "60")}>60%</option>
+											<option ${f:select("status", "70")}>70%</option>
+											<option ${f:select("status", "80")}>80%</option>
+											<option ${f:select("status", "90")}>90%</option>
 											<option ${f:select("status", "100")}>100%</option>
 										</select>
 									</td>
 									<td>
-										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+										<button class="tiny labeled icon ui green button" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
 											<i class="add circle icon"></i>
 											Save
 										</button>
 									</td>
 									<td>	
-										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id, item.eventName)" data-content="Click to Delete">
 											<i class="remove circle icon"></i>
 											Delete
 										</button>
+									</td>
+								</tr>
+								<tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
 									</td>
 								</tr>
 							</tbody>
@@ -209,14 +213,26 @@
 					<div class="ui right attached tab segment" data-tab="personal">
 						 
 						<div class="sixteen wide column" >
-							<h1 >PERSONAL</h1>
+							<h1> PERSONAL</h1>
 							<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
-				        		<input type="text" placeholder="Search...">
+				        		<input type="text" ng-model="searchTodo" placeholder="Search...">
 				        	<i class="search link icon"></i>
 				      		</div>
 				    	</div>
+				    	
+				    	<!-- PROGRESS BAR -->
+				    	<br/>
+				    	<label><b><em>PROGRESS</em></b></label>
+				    	<div class="ui red progress" data-percent="{{progPersonal}}">
+					    <div class="bar" style="transition-duration: 300ms; width: {{progPersonal}}%;">
+					      <div class="progress">{{progPersonal}}%</div>
+					    </div>
+					  </div>
+				    	
+				    	<!-- END -->
+				    	
 			    	</div>
 						<table class="ui blue table" >
 						<thead>
@@ -229,9 +245,10 @@
 					    	</tr>
 					    </thead>
 							<tbody >
-								<tr ng-repeat="item in eventTodoList | filter:{eventName:'Personal'}" ng-show="events">
+								<tr ng-show="filtery.length!=0" ng-repeat="item in filtery | filter:{eventName:'Personal'} | filter:searchTodo" ng-show="events">
 									<td>
-									{{item.eventName}}
+									{{item.eventName}} <br/>
+									
 									</td>
 									
 									<td>
@@ -241,23 +258,36 @@
 									<td>  
 										
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
-											
+											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
 											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "10")}>10%</option>
+											<option ${f:select("status", "20")}>20%</option>
+											<option ${f:select("status", "30")}>30%</option>
+											<option ${f:select("status", "40")}>40%</option>
 											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "60")}>60%</option>
+											<option ${f:select("status", "70")}>70%</option>
+											<option ${f:select("status", "80")}>80%</option>
+											<option ${f:select("status", "90")}>90%</option>
 											<option ${f:select("status", "100")}>100%</option>
 										</select>
 									</td>
 									<td>
-										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+										<button class="tiny labeled icon ui green button"  ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
 											<i class="add circle icon"></i>
 											Save
 										</button>
 									</td>
 									<td>	
-										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id, item.eventName)" data-content="Click to Delete">
 											<i class="remove circle icon"></i>
 											Delete
 										</button>
+									</td>
+								</tr>
+								<tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
 									</td>
 								</tr>
 							</tbody>
@@ -277,23 +307,19 @@
 							<table class="ui very basic table">
 							 
 							  <tbody>
-							    <tr>
+							    <tr ng-repeat="item in filtered = (eventTodoList | filter:{status:'100'})">
 							    <td>
 							      
 								      <i class="checkmark icon"></i>
-								      <label>Breathe</label>
+								      <label>{{item.todoID}}</label>
 								    
 								    </td>
 							    </tr>
 							    <tr>
-							    <td>
-							      
-								      <i class="checkmark icon"></i>
-								      <label>Drink Water</label>
-								    
-								    </td>
-							    </tr>
-							  
+									<td ng-show="!filtery.length">
+										No Results Found.
+									</td>
+								</tr>
 							  </tbody>
 							</table>
 							
@@ -309,10 +335,22 @@
 							<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
-				        		<input type="text" placeholder="Search...">
+				        		<input type="text" ng-model="searchTodo" placeholder="Search...">
 				        	<i class="search link icon"></i>
 				      		</div>
 				    	</div>
+				    	
+				    	<!-- PROGRESS BAR -->
+				    	<br/>
+				    	<label><b><em>PROGRESS</em></b></label>
+				    	<div class="ui blue progress" data-percent="{{progSchool}}">
+					    <div class="bar" style="transition-duration: 300ms; width: {{progSchool}}%;">
+					      <div class="progress">{{progSchool}}%</div>
+					    </div>
+					  </div>
+				    	
+				    	<!-- END -->
+				    	
 			    	</div>
 							<table class="ui blue table" >
 						<thead>
@@ -325,7 +363,7 @@
 					    	</tr>
 					    </thead>
 							<tbody >
-								<tr ng-repeat="item in eventTodoList | filter:{eventName:'School'}" ng-show="events">
+								<tr ng-show="filtery.length!=0" ng-repeat="item in filtery | filter:{eventName:'School'} | filter:searchTodo" ng-show="events">
 									<td>
 									{{item.eventName}}
 									</td>
@@ -337,23 +375,36 @@
 									<td>  
 										
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
-											
+											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
 											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "10")}>10%</option>
+											<option ${f:select("status", "20")}>20%</option>
+											<option ${f:select("status", "30")}>30%</option>
+											<option ${f:select("status", "40")}>40%</option>
 											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "60")}>60%</option>
+											<option ${f:select("status", "70")}>70%</option>
+											<option ${f:select("status", "80")}>80%</option>
+											<option ${f:select("status", "90")}>90%</option>
 											<option ${f:select("status", "100")}>100%</option>
 										</select>
 									</td>
 									<td>
-										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+										<button class="tiny labeled icon ui green button"  ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
 											<i class="add circle icon"></i>
 											Save
 										</button>
 									</td>
 									<td>	
-										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id, item.eventName)" data-content="Click to Delete">
 											<i class="remove circle icon"></i>
 											Delete
 										</button>
+									</td>
+								</tr>
+								  <tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
 									</td>
 								</tr>
 							</tbody>
@@ -374,10 +425,22 @@
 							<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
-				        		<input type="text" placeholder="Search...">
+				        		<input type="text" ng-model ="searchTodo" placeholder="Search...">
 				        	<i class="search link icon"></i>
 				      		</div>
 				    	</div>
+				    	
+				    	<!-- PROGRESS BAR -->
+				    	<br/>
+				    	<label><b><em>PROGRESS</em></b></label>
+				    	<div class="ui green progress" data-percent="{{progWork}}">
+					    <div class="bar" style="transition-duration: 300ms; width: {{progWork}}%;">
+					      <div class="progress">{{progWork}}%</div>
+					    </div>
+					  </div>
+				    	
+				    	<!-- END -->
+				    	
 			    	</div>
 							<table class="ui blue table" >
 						<thead>
@@ -390,7 +453,7 @@
 					    	</tr>
 					    </thead>
 							<tbody >
-								<tr ng-repeat="item in eventTodoList | filter:{eventName:'Work'}" ng-show="events">
+								<tr ng-show="filtery.length!=0" ng-repeat="item in filtery | filter:{eventName:'Work'} | filter:searchTodo" ng-show="events">
 									<td>
 									{{item.eventName}}
 									</td>
@@ -402,23 +465,36 @@
 									<td>  
 										
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
-											
+											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
 											<option ${f:select("status", "0")}>0%</option>
+											<option ${f:select("status", "10")}>10%</option>
+											<option ${f:select("status", "20")}>20%</option>
+											<option ${f:select("status", "30")}>30%</option>
+											<option ${f:select("status", "40")}>40%</option>
 											<option ${f:select("status", "50")}>50%</option>
+											<option ${f:select("status", "60")}>60%</option>
+											<option ${f:select("status", "70")}>70%</option>
+											<option ${f:select("status", "80")}>80%</option>
+											<option ${f:select("status", "90")}>90%</option>
 											<option ${f:select("status", "100")}>100%</option>
 										</select>
 									</td>
 									<td>
-										<button class="tiny labeled icon ui green button" id="butt" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
+										<button class="tiny labeled icon ui green button" ng-click="updateEventTaskClick(item.id, 'status_')" data-content="Click to Save">
 											<i class="add circle icon"></i>
 											Save
 										</button>
 									</td>
 									<td>	
-										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id)" data-content="Click to Delete">
+										<button class="tiny labeled icon ui red button" ng-click="deleteEventTaskClick(item.id, item.eventName)" data-content="Click to Delete">
 											<i class="remove circle icon"></i>
 											Delete
 										</button>
+									</td>
+								</tr>
+								 <tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
 									</td>
 								</tr>
 							</tbody>
@@ -450,7 +526,7 @@
 				<!-- ALL, TODO -->
 					<div class="ui right attached tab segment" data-tab="all">
 						<div class="sixteen wide column">
-			
+				<form class="ui form">
 				<table class="ui blue table">
 									 
 					<tbody >
@@ -465,7 +541,7 @@
 					    <tr ng-repeat="item in tweetList" ng-show="tweets">
 						    <td>
 							     <div class="ui input">
-							     <input type="text"  id="content_{{item.id}}" value="{{item.content}}">
+							     <input type="text" id="content_{{item.id}}" value="{{item.content}}" required>
 							     <input type="hidden" value="{{item.createdDate}}"> 
 							     </div>
 							 </td>
@@ -479,7 +555,7 @@
 								</button>
 							</td>
 							<td>
-								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
+								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id, 'content_')">
 									<i class="remove circle icon"></i>
 										Delete
 								</button>
@@ -487,7 +563,7 @@
 					    </tr>
 				  </tbody>
 				</table>
-			
+				</form>
 					
 						</div>
 					</div>
@@ -524,7 +600,7 @@
 								</button>
 							</td>
 							<td>
-								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
+								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id, 'content_')">
 									<i class="remove circle icon"></i>
 										Delete
 								</button>
@@ -567,7 +643,7 @@
 								</button>
 							</td>
 							<td>
-								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id)">
+								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id, 'content_')">
 									<i class="remove circle icon"></i>
 										Delete
 								</button>
@@ -600,14 +676,14 @@
 						
 							<div class="field">
 							<label>TODO Name</label>
-							<input ng-model="content" type="text"  placeholder="Enter TODO Name">
+							<input ng-model="content" type="text"  placeholder="Enter TODO Name" required>
 						</div>
 						
 						
 						<div class="two fields ">
 						<div class="field">
 							  <label>TODO Type</label>
-								<select ng-model="type" class="ui fluid dropdown">
+								<select ng-model="type" class="ui fluid dropdown" required>
 									<option  value="" disabled default selected class="display-none">Select Type</option>
 									<option ${f:select("type", "Action")}>Action</option>
 									<option ${f:select("type", "Item")}>Item</option>
@@ -615,10 +691,7 @@
 						 </div>
 						 
 						  
-						  <div class="four wide field">
-							  <label>Item Count</label>
-							  <input ng-model="itemCount"  type="tel" placeholder="Item Count">
-							</div>
+						  
 						</div>
 						 
 				
@@ -655,7 +728,7 @@
 						
 							<div class="field">
 							<label>EVENT</label>
-								<select ng-model="event" class="ui fluid dropdown">
+								<select ng-model="event" class="ui fluid dropdown" required>
 									<option  value="" disabled default selected class="display-none">Select Type</option>
 									<option ${f:select("event", "Personal")}>Personal</option>
 									<option ${f:select("event", "School")}>School</option>
@@ -664,23 +737,19 @@
 							</div>
 						
 						
-						<div class="three fields ">
+						<div class="two fields ">
 						
-						 <div class="four wide field">
-							  <label>Status</label>
-							  <input ng-model="status"  type="tel" placeholder="status">
-						</div>
 						
 						<div class="four wide field">
 							  <label>Item Count</label>
-							  <input ng-model="count"  type="tel" placeholder="count">
+							  <input ng-model="count"  id=itemC"" type="number" placeholder="count" min="1" max="100" required>
 						</div>
 						
 						 <div class="field">
 							  <label>Todo Name</label>
 							<!--   <input ng-model="todoName"  type="tel" placeholder="Todo Name"> -->
 							  
-							  <select ng-model="todoName" class="ui fluid dropdown">
+							  <select ng-model="todoName" id="todoN" class="ui fluid dropdown" required>
 									<option  value="" disabled default selected class="display-none">Select Type</option>
 									<option ng-repeat="item in tweetList" ng-show="tweets" id="content_{{item.id}}" ${f:select("todoName", "{{item.content}}")}>{{item.content}}</option>
 									 
@@ -731,8 +800,26 @@ $('#addeventtodo').on( "click", function() {
                   
 		});
 	
+
 	
 	
+</script>
+
+<script>
+(function($){
+$('.ui.input').input({
+	todoContent: {
+		identifier: 'updateContent',
+		rules: [{
+			type: 'empty',
+			prompt: 'Please enter name'
+		}]
+	}
+}, {
+	on: blur,
+	inline: 'true'
+});
+});
 </script>
 
 </html>
