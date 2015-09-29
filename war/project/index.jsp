@@ -86,17 +86,31 @@
 		
 		<!-- EVENTS / TODOS MENU -->
 	<!-- EVENTS / TODOS MENU -->
-		<div class="ui secondary large pointing menu">
-		  <a class="active blue item" data-tab="events">
-		    <i class="book icon"></i> Events
-		  </a>
-		  <a class="blue item" data-tab="todos">
-		    <i class="checkmark box icon" ></i> Todos
-		  </a>
-		 </div>
+		<div class="ui vertical menu">
+		  <div class="item">
+		    <div class="header">EVENTS</div>
+				<div class="menu">
+					<a class="red item" data-tab="personal" id="per"><i class="circle icon"></i> Personal</a>
+					<a class="blue item" data-tab="school" ><i class="circle icon"></i> School related</a>
+					<a class="green item"  data-tab="work" ><i class="circle icon"></i> Work</a>
+				</div>
+		  </div>
+		  
+		    <div class="item">
+		    <div class="header">TODOS</div>
+				<div class="menu">
+						<a class="red item" data-tab="all" id="all"><i class="folder open icon"></i> All</a>
+						<a class="blue item" data-tab="item"><i class="list layout icon"></i> Item</a>
+						<a class="green item" data-tab="action" ><i class="list layout icon"></i> Action</a>
+				</div>
+		  </div>
+		
+		
 		
 		
 		<!-- SUB MENU OF EVENTS / TODOS -->
+		
+		<!--
 		<div class= "ui attached active tab" id="tabEvent" data-tab="events">
 					<div class="ui secondary large vertical pointing menu"  >
 						<a class="red item" data-tab="personal" id="per"><i class="circle icon"></i> Personal</a>
@@ -106,6 +120,7 @@
 					</div>
 				
 		</div>
+	
 					
 		<div class= "ui attached tab" id="tabTodo" data-tab="todos">
 					<div class="ui secondary large vertical pointing menu" >
@@ -120,8 +135,8 @@
 				  Add Todo
 				</div>
 				
-			</div>
-			
+			</div> -->
+			 </div>
 		</div>
 
 		<!-- MENU CONTENT, EVENTS -->
@@ -129,9 +144,10 @@
 		 					
 					
 			<!-- DEFAULT, EVENT -->
+			
 					<div class="ui right attached tab segment" data-tab="events">
 					
-				<!-- DISPLAY TODOS in EVENTS -->			
+				<!-- DISPLAY TODOS in EVENTS 			-->
 						<div class="sixteen wide column">
 						<div class="menu">
 				   		 <div class="item">
@@ -207,6 +223,7 @@
 							
 						</div>
 					</div>
+			
 					
 					<!-- PERSONAL EVENT -->
 					
@@ -617,7 +634,7 @@
 						<div class="sixteen wide column">
 							<table class="ui blue table">
 									 
-					<tbody >
+					<tbody>
 					    <thead>
 					    	<tr>
 					    		<th> TODO Description</th>
