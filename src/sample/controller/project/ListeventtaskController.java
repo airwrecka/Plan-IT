@@ -19,7 +19,7 @@ public class ListeventtaskController extends Controller {
         JSONObject json = new JSONObject();
 
         try {
-        	System.out.println("here");
+        	
             eventTodoList = service.getEventTodoList();
         } catch (Exception e) {
             e.printStackTrace();

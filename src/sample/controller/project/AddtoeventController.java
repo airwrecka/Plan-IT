@@ -10,19 +10,12 @@ import sample.service.EventService;
 
 public class AddtoeventController extends Controller {
 
-	/**
-     * The TwitterService to use.
-     * Holds the method for deleting a tweet.
-     */
+	
     private EventService service = new EventService();
 
     @Override
     public Navigation run() throws Exception {
-//        Map<String,Object> input = new RequestMap(this.request);
-//        TwitterDto tweetDto = new TwitterDto();
-//        BeanUtil.copy(input, tweetDto);
-//        service.tweet(tweetDto);
-//        return redirect(this.basePath);
+
         EventTaskDto dto = new EventTaskDto();
         JSONObject json = null;
         try {

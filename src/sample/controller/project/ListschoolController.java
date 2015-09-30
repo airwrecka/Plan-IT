@@ -16,7 +16,7 @@ public class ListschoolController extends Controller {
         JSONObject json = new JSONObject();
 
         try {
-        	System.out.println("here");
+        	
             eventTodoList = service.getEventTodoSchool();
         } catch (Exception e) {
             e.printStackTrace();

@@ -33,6 +33,6 @@ public class DeleteeventtodoController extends Controller {
         response.setContentType("application/json");
         response.getWriter().write(json.toString());
         return null;
-      //  return null;
+   
     }
 }

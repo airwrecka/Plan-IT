@@ -595,7 +595,7 @@
 				    	</div>
 						<br/>
 						<div class="item">
-							<div class="medium labeled icon ui blue button" id="addTodo">
+							<div class="medium labeled icon ui blue button" id="addTodo2">
 							  <i class="plus icon"></i>
 
 							  Add Todo

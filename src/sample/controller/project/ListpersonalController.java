@@ -17,7 +17,7 @@ public class ListpersonalController extends Controller {
         JSONObject json = new JSONObject();
 
         try {
-        	System.out.println("here");
+        	
             eventTodoList = service.getEventTodoPersonal();
         } catch (Exception e) {
             e.printStackTrace();

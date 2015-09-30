@@ -29,10 +29,7 @@ public class EventService {
         return input;
     }
 
-    /**
-     * Method used to retrieve list of eventTasks.
-     * @return List<eventTask> - list of eventTasks.
-     */
+   
     public EventTaskClientDto getEventTodoList() {
         List<EventTask> eventTaskModels = this.dao.getAllEventTasks();
         EventTaskClientDto eventTaskList = new EventTaskClientDto();
@@ -125,11 +122,6 @@ public class EventService {
 
 
 
-    /**
-     * Method used to update a eventTask.
-     * @param input - eventTask to update.
-     * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
-     */
     public EventTaskDto updateEventTask(EventTaskDto input) {
         EventTask EventTask = new EventTask();
         EventTask.setId(input.getId());
@@ -144,11 +136,7 @@ public class EventService {
         return input;
     }
 
-    /**
-     * Method used to delete a eventTask.
-     * @param input - eventTask to delete.
-     * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
-     */
+   
     public EventTaskDto deleteEventTask(EventTaskDto input) {
         EventTask EventTask = new EventTask();
         EventTask.setId(input.getId());

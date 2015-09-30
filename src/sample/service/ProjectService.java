@@ -1,8 +1,4 @@
-/* ------------------------------------------------------------------------------
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Copyright (C) Rococo Global Technologies, Inc - All Rights Reserved 2015
- * --------------------------------------------------------------------------- */
+
 package sample.service;
 
 import java.util.ArrayList;
@@ -16,17 +12,10 @@ import sample.model.Todo;
 
 
 public class ProjectService {
-    /**
-     * The TwitterService to use.
-     * Holds the method for transacting with the datastore.
-     */
+   
     ProjectDao dao = new ProjectDao();
 
-    /**
-     * Method used to add a tweet.
-     * @param input - tweet to add.
-     * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
-     */
+    
     public TodoDto tweet(TodoDto input) {
         Todo Todo = new Todo();
         Todo.setCreatedDate(input.getCreatedDate());
@@ -42,10 +31,7 @@ public class ProjectService {
         return input;
     }
 
-    /**
-     * Method used to retrieve list of tweets.
-     * @return List<Tweet> - list of tweets.
-     */
+  
     public TodoClientDto getTweetList() {
         List<Todo> tweetModels = this.dao.getAllTweets();
         TodoClientDto tweetList = new TodoClientDto();
@@ -63,11 +49,6 @@ public class ProjectService {
         return tweetList;
     }
 
-    /**
-     * Method used to update a tweet.
-     * @param input - tweet to update.
-     * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
-     */
     public TodoDto updateTweet(TodoDto input) {
         Todo Todo = new Todo();
         Todo.setId(input.getId());
@@ -82,11 +63,7 @@ public class ProjectService {
         return input;
     }
 
-    /**
-     * Method used to delete a tweet.
-     * @param input - tweet to delete.
-     * @return TwitterDto - if transaction was unsuccessful, contains list of errors.
-     */
+   
     public TodoDto deleteTweet(TodoDto input) {
         Todo Todo = new Todo();
         Todo.setId(input.getId());

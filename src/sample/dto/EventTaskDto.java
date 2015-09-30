@@ -10,7 +10,7 @@ public class EventTaskDto {
     private long id;
     private List<String> errorList = new ArrayList<String>();
     private String eventName;
-   // private String createdDate = new Date().toString();
+  
     private String todoID;
     private int status;
     private int count;

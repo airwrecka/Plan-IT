@@ -17,7 +17,7 @@ public class ListworkController extends Controller {
         JSONObject json = new JSONObject();
 
         try {
-        	System.out.println("here");
+        	
             eventTodoList = service.getEventTodoWork();
         } catch (Exception e) {
             e.printStackTrace();
