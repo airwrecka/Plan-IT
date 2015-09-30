@@ -40,11 +40,22 @@
 			overlay: 'rgba(0,100,100,0.1)'
 		});
 		
+		$('#modalMsg').on('click', function() {
+			$(this).closest('.message').transition('fade');
+		});
+		
+		$('#introMsg').on('click', function() {
+			$(this).closest('.message').transition('fade');
+		});
+		
 	});
 	$('.item').click(function(){ 
+		
 		$('.active').removeClass('active item');
 		$(this).addClass('active item');
+		$('#introLine').remove();
 	});
+	
 	
 	
 
@@ -58,7 +69,7 @@
 <body  ng-controller="sampleController" data-ng-init="init()">
 <link rel="stylesheet/less" type="text/css" href="../SemanticUI/src/definitions/collections/menu.less" />
 
-<div >
+
 <div class ="ui grid" >
 	<div class="two column row">
 		<div class="four wide left floated column">
@@ -86,21 +97,22 @@
 		
 		<!-- EVENTS / TODOS MENU -->
 	<!-- EVENTS / TODOS MENU -->
-		<div class="ui vertical menu">
+		<div class="ui large vertical menu">
 		  <div class="item">
 		    <div class="header">EVENTS</div>
-				<div class="menu">
-					<a class="red item" data-tab="personal" id="per"><i class="circle icon"></i> Personal</a>
-					<a class="blue item" data-tab="school" ><i class="circle icon"></i> School related</a>
-					<a class="green item"  data-tab="work" ><i class="circle icon"></i> Work</a>
+				<div class="menu" data-tab="events" >
+					
+					<a class="red item" data-tab="personal" id="per"><i class="user icon"></i> Personal</a>
+					<a class="blue item" data-tab="school" ><i class="student icon"></i> School related</a>
+					<a class="green item"  data-tab="work" ><i class="suitcase icon"></i> Work</a>
 				</div>
 		  </div>
 		  
 		    <div class="item">
 		    <div class="header">TODOS</div>
 				<div class="menu">
-						<!-- <a class="red item" data-tab="all" id="all"><i class="folder open icon"></i> All</a> -->
-						<a class="blue item" data-tab="item"><i class="list layout icon"></i> Item</a>
+			
+						<a class="blue item" data-tab="item"><i class="tasks icon"></i> Item</a>
 						<a class="green item" data-tab="action" ><i class="list layout icon"></i> Action</a>
 				</div>
 		  </div>
@@ -114,7 +126,19 @@
 
 		<!-- MENU CONTENT, EVENTS -->
 		<div class="twelve wide column" style="padding:0em 12em 0em 3em">
-		 					
+		 			
+					<div class="ui massive blue icon message" id="introMsg">
+					<i class="close icon"></i>
+					  <i class="world icon"></i>
+					  <div class="content">
+						<div class="header">
+						  Welcome to Plan IT!
+						</div>
+						<p>Click on any item on the left to get started. </p>
+					  </div>
+					</div>
+					
+							
 					
 			<!-- PERSONAL EVENT -->
 			
@@ -122,6 +146,7 @@
 					
 				<!-- DISPLAY TODOS in EVENTS 			-->
 						<div class="sixteen wide column">
+						<h1>PERSONAL</h1>
 						<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
@@ -149,6 +174,7 @@
 					    	<tr>
 					    		<th> Event Name</th>
 					    		<th> Todo </th>
+								<th> Todo Count </th>
 					    		<th> Status </th>
 					    		<th></th>
 					    		<th></th>
@@ -164,6 +190,9 @@
 									{{item.todoID}}
 									</td>
 								
+									<td>
+									{{item.count}}
+									</td>
 									<td>  
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
 											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
@@ -205,7 +234,29 @@
 							  <i class="plus icon"></i>
 							  Add Todo
 							</div>
-					
+					<h4 class="ui horizontal header divider">
+							    <i class="checkmark box icon"></i>
+							    Finished Tasks
+							  </h4>
+							  
+							<table class="ui very basic table">
+							 
+							  <tbody>
+							    <tr ng-repeat="item in filtered = (eventTodoList |filter:{eventName:'Personal'}| filter:{status:'100'})">
+							    <td>
+							      
+								      <i class="checkmark icon"></i>
+								      <label>{{item.todoID}}</label>
+								    
+								    </td>
+							    </tr>
+							    <tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
+									</td>
+								</tr>
+							  </tbody>
+							</table>
 							
 						</div>
 					</div>
@@ -217,6 +268,7 @@
 					
 				<!-- DISPLAY TODOS in EVENTS 			-->
 						<div class="sixteen wide column">
+						<h1>SCHOOL</h1>
 						<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
@@ -244,6 +296,7 @@
 					    	<tr>
 					    		<th> Event Name</th>
 					    		<th> Todo </th>
+								<th> Todo Count </th>
 					    		<th> Status </th>
 					    		<th></th>
 					    		<th></th>
@@ -259,6 +312,9 @@
 									{{item.todoID}}
 									</td>
 								
+									<td>
+									{{item.count}}
+									</td>
 									<td>  
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
 											<option  value="" disabled default selected class="display-none">{{item.status}}%</option>
@@ -296,11 +352,33 @@
 							</tbody>
 							
 						</table>
-							<div class="tiny labeled icon ui green button" id="addeventtodo">
+							<div class="tiny labeled icon ui green button" id="addeventtodo2">
 							  <i class="plus icon"></i>
 							  Add Todo
 							</div>
-					
+					<h4 class="ui horizontal header divider">
+							    <i class="checkmark box icon"></i>
+							    Finished Tasks
+							  </h4>
+							  
+							<table class="ui very basic table">
+							 
+							  <tbody>
+							    <tr ng-repeat="item in filtered = (eventTodoList |filter:{eventName:'School'}| filter:{status:'100'})">
+							    <td>
+							      
+								      <i class="checkmark icon"></i>
+								      <label>{{item.todoID}}</label>
+								    
+								    </td>
+							    </tr>
+							    <tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
+									</td>
+								</tr>
+							  </tbody>
+							</table>
 							
 						</div>
 					</div>
@@ -310,6 +388,7 @@
 					
 				<!-- DISPLAY TODOS in EVENTS 			-->
 						<div class="sixteen wide column">
+						<h1>WORK</h1>
 						<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
@@ -337,6 +416,7 @@
 					    	<tr>
 					    		<th> Event Name</th>
 					    		<th> Todo </th>
+								<th> Todo Count </th>
 					    		<th> Status </th>
 					    		<th></th>
 					    		<th></th>
@@ -351,6 +431,10 @@
 									<td>
 									{{item.todoID}}
 									</td>
+									<td>
+									{{item.count}}
+									</td>
+								
 								
 									<td>  
 										<select ng-model="type" class="ui fluid dropdown" id="status_{{item.id}}" value="{{item.status}}">
@@ -389,12 +473,34 @@
 							</tbody>
 							
 						</table>
-							<div class="tiny labeled icon ui green button" id="addeventtodo">
+							<div class="tiny labeled icon ui green button" id="addeventtodo3">
 							  <i class="plus icon"></i>
 							  Add Todo
 							</div>
 					
-							
+							<h4 class="ui horizontal header divider">
+							    <i class="checkmark box icon"></i>
+							    Finished Tasks
+							  </h4>
+							  
+							<table class="ui very basic table">
+							 
+							  <tbody>
+							    <tr ng-repeat="item in filtered = (eventTodoList | filter:{eventName:'Work'}| filter:{status:'100'})">
+							    <td>
+							      
+								      <i class="checkmark icon"></i>
+								      <label>{{item.todoID}}</label>
+								    
+								    </td>
+							    </tr>
+							    <tr>
+									<td ng-show="!filtery.length">
+										No Results Found.
+									</td>
+								</tr>
+							  </tbody>
+							</table>
 						</div>
 					</div>
 					
@@ -404,74 +510,11 @@
 			
 			<!-- MENU CONTENT, TODOS -->
 			
-				<!-- DEFAULT, TODO -->
-		
-	
-			
-				<!-- ALL, TODO 
-					<div class="ui right attached tab segment" data-tab="all">
-						<div class="sixteen wide column">
-						<div class="menu">
-				   		 <div class="item">
-				      		<div class="ui icon input">
-				        		<input type="text" ng-model="searchRes" placeholder="Search...">
-				        	<i class="search link icon"></i>
-				      		</div>
-				    	</div>
-				    	
-			    	</div>
-				<form class="ui form">
-				<table class="ui blue table">
-									 
-					<tbody >
-					    <thead>
-					    	<tr>
-					    		<th> TODO Description</th>
-					    		<th> Type </th>
-					    		<th></th>
-					    		<th></th>
-					    	</tr>
-					    </thead>
-						<tr ng-show="filtery.length!=0"  ng-repeat="item in filtery = (tweetList |filter:searchRes)" ng-show="tweets">
-									
-						    <td>
-							     <div class="ui input">
-							     <input type="text" id="content_{{item.id}}" value="{{item.content}}" required>
-							     <input type="hidden" value="{{item.createdDate}}"> 
-							     </div>
-							 </td>
-							 <td>
-							 {{item.type}}
-							 </td>
-							 <td>
-								<button class="tiny labeled icon ui green button" ng-click="updateClick(item.id, 'content_', item.createdDate)">
-									<i class="add circle icon"></i>
-										Update
-								</button>
-							</td>
-							<td>
-								<button class="tiny labeled icon ui red button" ng-click="deleteClick(item.id, 'content_')">
-									<i class="remove circle icon"></i>
-										Delete
-								</button>
-							</td>
-					    </tr>
-						<tr>
-									<td ng-show="!filtery.length">
-										No Results Found.
-									</td>
-								</tr>
-				  </tbody>
-				</table>
-				</form>
-					
-						</div>
-					</div>
-					-->
-					
+				
 				<!-- ITEM, TODO -->
 				<div class="ui right attached tab segment" data-tab="item">
 						<div class="sixteen wide column">
+						<h1>TODOS: ITEM</h1>
 						<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
@@ -480,6 +523,7 @@
 				      		</div>
 				    	</div>
 						
+						<br/>
 						<div class="item">
 							<div class="medium labeled icon ui blue button" id="addTodo">
 							  <i class="plus icon"></i>
@@ -487,7 +531,7 @@
 							  Add Todo
 							</div>
 						</div>
-				    	
+				    	<br/>
 			    	</div>
 				<form class="ui form">
 				<table class="ui blue table">
@@ -541,6 +585,7 @@
 				<!-- ACTION, TODO -->
 					<div class="ui right attached tab segment" data-tab="action">
 						<div class="sixteen wide column">
+						<h1>TODOS: ACTION</h1>
 						<div class="menu">
 				   		 <div class="item">
 				      		<div class="ui icon input">
@@ -548,7 +593,7 @@
 				        	<i class="search link icon"></i>
 				      		</div>
 				    	</div>
-						
+						<br/>
 						<div class="item">
 							<div class="medium labeled icon ui blue button" id="addTodo">
 							  <i class="plus icon"></i>
@@ -556,7 +601,7 @@
 							  Add Todo
 							</div>
 						</div>
-				    	
+								<br/>		    	
 			    	</div>
 				<form class="ui form">
 				<table class="ui blue table">
@@ -607,8 +652,8 @@
 					</div>
 					
 					
-					
-		
+</div>					
+</div>		
 	<!-- MODAL FOR ADDING TODO -->
 	
 	<div class ="ui small basic modal" id="addTodoModal">
@@ -631,12 +676,13 @@
 						<div class="two fields ">
 						<div class="field">
 							  <label>TODO Type</label>
-								<select ng-model="type" class="ui fluid dropdown" required>
+								<select ng-model="type"  class="ui fluid dropdown" required>
 									<option  value="" disabled default selected class="display-none">Select Type</option>
 									<option ${f:select("type", "Action")}>Action</option>
 									<option ${f:select("type", "Item")}>Item</option>
 								</select>
 						 </div>
+						
 						 
 						  
 						  
@@ -663,11 +709,23 @@
 	
 <!-- MODAL FOR ADDING TODO TO EVENT -->
 	
-	<div class ="ui small basic modal" id="addEventTodoModal">
-	 <i class="close icon"></i>
-                <div class="header">
+	<div class ="ui basic modal" id="addEventTodoModal">
+	                <div class="header">
                 Add Todo to Event
                 </div>
+	<div class="ui icon warning message" id="modalMsg">
+	  <i class="icon warning circle"></i>
+	  <div class="content">
+		  <div class="header">
+			Review your item count before saving!
+		  </div>	  
+		  <ul class="list">
+			<li>  If your selected TODO is considered as an "ITEM", please specify your desired item count.</li>
+			<li>If it's considered as an "ACTION", please input "0".</li>
+		  </ul>
+		  </div>
+	</div>
+	
 				
 		<div class="content">
 			<div class ="ui centered grid">
@@ -690,18 +748,20 @@
 						
 						<div class="four wide field">
 							  <label>Item Count</label>
-							  <input ng-model="count"  id=itemC"" type="number" placeholder="count" min="1" max="100" required>
+							  <input ng-model="count"  ng-disable="actiontype" id ="itemc"type="number" placeholder="count" min="0" max="100" required >
 						</div>
 						
 						 <div class="field">
 							  <label>Todo Name</label>
 							<!--   <input ng-model="todoName"  type="tel" placeholder="Todo Name"> -->
 							  
-							  <select ng-model="todoName" id="todoN" class="ui fluid dropdown" required>
-									<option  value="" disabled default selected class="display-none">Select Type</option>
-									<option ng-repeat="item in tweetList" ng-show="tweets" id="content_{{item.id}}" ${f:select("todoName", "{{item.content}}")}>{{item.content}}</option>
-									 
+							  <select ng-model="todoName" id="todoN" class="ui fluid dropdown" ng-model="actiontype" required>
+									<option  value="" disabled default selected class="display-none">Select Todo</option>
+									<option ng-repeat="item in tweetList" ng-show="tweets" id="content_{{item.id}}" ${f:select("todoName", "{{item.content}}")}>{{item.content}}
+									<input type="hidden" id="tdtype" value="{{item.type}}" >
+									</option>
 								</select>
+							
 						</div>
 							
 						</div>
@@ -725,28 +785,63 @@
 	</div>
 </div>
 
-</div>
-</div>
 
-</div>
+
+
 	
 </body>
 
 <script type="text/javascript">
+
+
+		  
+
+	  
+
 $('#addeventtodo').on( "click", function() {
 	$('#addEventTodoModal').modal({
 		closable  : false,
 	  })
 	  .modal('show');
+	  
+	 
           
 });
-	$('#addTodo').on( "click", function() {
+
+$('#addeventtodo2').on( "click", function() {
+	$('#addEventTodoModal').modal({
+		closable  : false,
+	  })
+	  .modal('show');
+	  
+          
+});
+
+$('#addeventtodo3').on( "click", function() {
+	$('#addEventTodoModal').modal({
+		closable  : false,
+	  })
+	  .modal('show');
+	 
+});
+
+$('#addTodo').on( "click", function() {
 			$('#addTodoModal').modal({
 				closable  : false,
 			  })
 			  .modal('show');
                   
 		});
+
+$('#addTodo2').on( "click", function() {
+			$('#addTodoModal').modal({
+				closable  : false,
+			  })
+			  .modal('show');
+                  
+		});
+		
+
 	
 
 	

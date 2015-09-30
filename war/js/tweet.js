@@ -35,6 +35,8 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	$scope.eventWork =[];
 	$scope.eventSchool =[];
 	
+	$scope.temp =[];
+	
 	
 	/*
 	* LIST TODOS
@@ -143,30 +145,91 @@ var controller = module.controller("sampleController", function($scope, $http) {
 	 * */
 	$scope.updateClick = function(id, content, createdDate) {
 		$scope.errorDisplay = "";
-		
+		var eventTodoPromise = $http.get("listeventtask");
+		var listOfAllTodos = $http.get("list");
+		var keepGoing = true;
+		var keepGoing2 = true;
+		var origContent ="";
 		var jsonData = {
 				id: id,
 				content: document.getElementById(content+id).value,
 				createdDate: createdDate
 		};
-
-	
-		var tweetPromise = $http.post("update", jsonData);
-		tweetPromise.success(function(data, status, headers, config) {
-			if(data.errorList.length == 0) {
-				alert('Entry updated successfully!');
-				$scope.loadTweet();
-			} else {
+		
+		
+		listOfAllTodos.success(function (data, status, headers, config){
+				if(data.errorList.length == 0){
+				$scope.temp = data.tweetList;
+				
+				for(var x = 0 ; x > $scope.temp.length ; x++){
+					if ($scope.temp[x].id == jsonData["id"]){
+						origContent = $scope.temp[x].content;
+						keepGoing2 = true;
+					}
+				}
+				
+				}
+				
+			
+		});
+		
+		if (keepGoing2){
+		eventTodoPromise.success(function (data, status, headers, config){
+			
+			
+			if(data.errorList.length == 0){
+				$scope.eventTodoList = data.eventTodoList;
+				for(var i=0 ; i < $scope.eventTodoList.length && keepGoing; i++){
+						
+						if ($scope.eventTodoList[i].todoID == origContent){
+						keepGoing = false;
+						
+					}
+					
+					else{
+						keepGoing = true;
+											
+					}
+						
+					
+						
+				}
+			if(keepGoing){
+				
+				var tweetPromise = $http.post("update", jsonData);
+				tweetPromise.success(function(data, status, headers, config) {
+				if(data.errorList.length == 0) {
+					
+					alert('Entry updated successfully!');
+					$scope.loadTweet();
+				} else {
+					var msg = "";
+					for (var i = 0; i < data.errorList.length; i++)
+						msg += data.errorList[i] + "\n";
+					$scope.errorDisplay = msg;
+				}
+				
+				
+			});
+				
+			}	
+			else{
+				alert('Cannot edit todo. Remove selected Todo from Events first');
+			}
+				
+				
+			}else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
 					msg += data.errorList[i] + "\n";
 				$scope.errorDisplay = msg;
 			}
-		});
-		tweetPromise.error(function(data, status, headers, config) {
 			
 		});
-		
+	}
+		eventTodoPromise.error(function(data, status, headers, config) {
+			
+		});
 		
 	};
 	
@@ -185,8 +248,6 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				id: id,
 				
 		};
-		
-	
 		
 		eventTodoPromise.success(function (data, status, headers, config){
 			if(data.errorList.length == 0){
@@ -462,7 +523,9 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				for (var i =0 ; i < $scope.eventPersonal.length ; i++){
 					sum += $scope.eventPersonal[i].status ;
 				}
-				$scope.progPersonal = sum / $scope.eventPersonal.length
+				
+				var n = sum / $scope.eventPersonal.length
+				$scope.progPersonal = n.toFixed(1);
 			} else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
@@ -484,7 +547,8 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				for (var i =0 ; i < $scope.eventSchool.length ; i++){
 					sum += $scope.eventSchool[i].status ;
 				}
-				$scope.progSchool = sum / $scope.eventSchool.length
+				var n = sum / $scope.eventSchool.length
+				$scope.progSchool = n.toFixed(1);
 			} else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
@@ -506,7 +570,8 @@ var controller = module.controller("sampleController", function($scope, $http) {
 				for (var i =0 ; i < $scope.eventWork.length ; i++){
 					sum += $scope.eventWork[i].status ;
 				}
-				$scope.progWork = sum / $scope.eventWork.length
+				var n = sum / $scope.eventWork.length
+				$scope.progWork = n.toFixed(1);
 			} else {
 				var msg = "";
 				for (var i = 0; i < data.errorList.length; i++)
